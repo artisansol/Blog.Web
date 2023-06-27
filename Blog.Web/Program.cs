@@ -23,7 +23,6 @@ namespace Blog.Web
             builder.Services.AddScoped<ILoggingBroker, LoggingBroker>();
             builder.Services.AddScoped<IDateTimeBroker, DateTimeBroker>();
 
-
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
