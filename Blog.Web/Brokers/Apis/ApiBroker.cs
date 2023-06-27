@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blog.Web.Models.Configurations;
-using Blog.Web.Models.Posts;
 using Microsoft.Extensions.Configuration;
 using RESTFulSense.Clients;
 
@@ -34,7 +32,7 @@ namespace Blog.Web.Brokers.Apis
 
         private IRESTFulApiFactoryClient GetApiClient(IConfiguration configuration)
         {
-            LocalConfigurations localConfigurations = 
+            LocalConfigurations localConfigurations =
                 configuration.Get<LocalConfigurations>();
 
             string apiUrl = localConfigurations.ApiConfigurations.Url;
