@@ -15,9 +15,8 @@ namespace Blog.Web.Services.Foundations.Posts
             this.apiBroker = apiBroker;
             this.loggingBroker = loggingBroker;
         }
-        public ValueTask<Post> AddPostAsync(Post post)
-        {
-            throw new System.NotImplementedException();
-        }
+        public async ValueTask<Post> AddPostAsync(Post post) =>
+            await this.apiBroker.PostPostAsync(post);
+
     }
 }
