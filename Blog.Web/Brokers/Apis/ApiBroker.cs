@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blog.Web.Models.Configurations;
+using Blog.Web.Models.Posts;
 using Microsoft.Extensions.Configuration;
 using RESTFulSense.Clients;
 
 namespace Blog.Web.Brokers.Apis
 {
-    public class ApiBroker : IApiBroker
+    public partial class ApiBroker : IApiBroker
     {
         private readonly IRESTFulApiFactoryClient apiClient;
         private readonly HttpClient httpClient;
