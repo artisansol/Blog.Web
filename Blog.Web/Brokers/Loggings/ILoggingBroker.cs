@@ -1,4 +1,6 @@
-﻿namespace Blog.Web.Brokers.Loggings
+﻿using System;
+
+namespace Blog.Web.Brokers.Loggings
 {
     public interface ILoggingBroker
     {

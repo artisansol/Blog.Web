@@ -1,4 +1,7 @@
-﻿namespace Blog.Web.Brokers.Loggings
+﻿using System;
+using Microsoft.Extensions.Logging;
+
+namespace Blog.Web.Brokers.Loggings
 {
     public class LoggingBroker : ILoggingBroker
     {
