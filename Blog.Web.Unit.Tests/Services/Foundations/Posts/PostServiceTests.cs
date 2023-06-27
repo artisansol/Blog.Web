@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
@@ -40,7 +36,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
-        private static Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException) =>
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
             actualException => actualException.SameExceptionAs(expectedException);
 
         private static Filler<Post> CreatePostFiller()

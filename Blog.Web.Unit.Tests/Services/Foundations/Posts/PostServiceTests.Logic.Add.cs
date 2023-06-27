@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using FluentAssertions;
 using Force.DeepCloner;
@@ -22,19 +18,19 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             Post postedPost = inputPost;
             Post expectedPost = postedPost.DeepClone();
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.PostPostAsync(inputPost))
                     .ReturnsAsync(postedPost);
 
             // when
-            Post actualPost = 
+            Post actualPost =
                 await this.postService.AddPostAsync(inputPost);
 
             // then
             actualPost.Should().BeEquivalentTo(expectedPost);
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.PostPostAsync(inputPost), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(inputPost),
                 Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

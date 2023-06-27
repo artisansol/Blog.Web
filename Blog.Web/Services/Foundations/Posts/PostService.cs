@@ -10,7 +10,7 @@ namespace Blog.Web.Services.Foundations.Posts
         private readonly IApiBroker apiBroker;
         private readonly ILoggingBroker loggingBroker;
 
-        public PostService(IApiBroker apiBroker,  ILoggingBroker loggingBroker)
+        public PostService(IApiBroker apiBroker, ILoggingBroker loggingBroker)
         {
             this.apiBroker = apiBroker;
             this.loggingBroker = loggingBroker;
