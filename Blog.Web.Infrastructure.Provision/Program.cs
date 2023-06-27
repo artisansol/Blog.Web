@@ -1,4 +1,6 @@
-﻿namespace Blog.Web.Infrastructure.Provision
+﻿using System;
+
+namespace Blog.Web.Infrastructure.Provision
 {
     internal class Program
     {
