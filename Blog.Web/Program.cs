@@ -1,3 +1,6 @@
+using Blog.Web.Brokers.Apis;
+using Blog.Web.Brokers.DateTimes;
+using Blog.Web.Brokers.Loggings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -18,6 +21,9 @@ namespace Blog.Web
             AddRootDirectory(builder.Services);
             builder.Services.AddLogging();
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<IApiBroker, ApiBroker>();
+            builder.Services.AddScoped<ILoggingBroker, LoggingBroker>();
+            builder.Services.AddScoped<IDateTimeBroker,DateTimeBroker>();
 
 
             var app = builder.Build();
