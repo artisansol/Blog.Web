@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using Blog.Web.Brokers.Apis;
+using Blog.Web.Brokers.Loggings;
+using Blog.Web.Models.Posts;
+using Blog.Web.Services.Foundations.Posts;
+using Moq;
+using Tynamix.ObjectFiller;
+using Xeptions;
+
+namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
+{
+    public partial class PostServiceTests
+    {
+        private readonly Mock<IApiBroker> apiBrokerMock;
+        private readonly Mock<ILoggingBroker> loggingBrokerMock;
+        private readonly IPostService postService;
+
+        public PostServiceTests()
+        {
+            this.apiBrokerMock = new Mock<IApiBroker>();
+            this.loggingBrokerMock = new Mock<ILoggingBroker>();
+            this.postService = new PostService(
+                apiBroker: apiBrokerMock.Object,
+                loggingBroker: loggingBrokerMock.Object);
+        }
+
+        private static Post CreateRandomPost() =>
+            CreatePostFiller().Create();
+
+        private static string GetRandomMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+        private static DateTimeOffset GetRandomDateTimeOffset() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException) =>
+            actualException => actualException.SameExceptionAs(expectedException);
+
+        private static Filler<Post> CreatePostFiller()
+        {
+            var filler = new Filler<Post>();
+
+            filler.Setup()
+                .OnType<DateTimeOffset>()
+                .Use(GetRandomDateTimeOffset());
+
+            return filler;
+        }
+
+    }
+}
