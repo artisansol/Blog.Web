@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 using Moq;
@@ -18,27 +14,27 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             // given
             Post nullPost = null;
 
-            var nullPostException = 
+            var nullPostException =
                 new NullPostException();
 
-            var expectedPostValidationException = 
+            var expectedPostValidationException =
                 new PostValidationException(nullPostException);
 
             // when
-            ValueTask<Post> addPostTask = 
+            ValueTask<Post> addPostTask =
                 this.postService.AddPostAsync(nullPost);
 
             // then
-            await Assert.ThrowsAsync<PostValidationException>(() => 
+            await Assert.ThrowsAsync<PostValidationException>(() =>
                 addPostTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostValidationException))),
                     Times.Once);
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.PostPostAsync(It.IsAny<Post>()), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()),
                 Times.Never);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

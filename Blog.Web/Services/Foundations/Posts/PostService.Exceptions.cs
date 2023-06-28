@@ -23,7 +23,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
         private PostValidationException CreateAndLogValidationException(Xeption exception)
         {
-            var postValidationException = 
+            var postValidationException =
                 new PostValidationException(exception);
 
             this.loggingBroker.LogError(postValidationException);
