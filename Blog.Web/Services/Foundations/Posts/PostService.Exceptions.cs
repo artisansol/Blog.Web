@@ -46,6 +46,23 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
+            catch(HttpResponseNotFoundException httpResponseNotFoundException)
+            {
+                var notFoundException = 
+                    new NotFoundException(httpResponseNotFoundException);
+
+                throw CreateAndLogDependencyValidationException(notFoundException);
+            }
+        }
+
+        private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var postDependencyValidationException = 
+                new PostDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(postDependencyValidationException);
+
+            return postDependencyValidationException;
         }
 
         private PostDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
