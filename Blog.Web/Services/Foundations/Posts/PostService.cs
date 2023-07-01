@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
@@ -22,5 +23,9 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 return await this.apiBroker.PostPostAsync(post);
             });
+        public ValueTask<Post> RemovePostByIdAsync(Guid postId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
