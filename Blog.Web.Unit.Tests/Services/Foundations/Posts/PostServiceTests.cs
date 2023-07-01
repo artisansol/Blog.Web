@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Net.Http;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
 using Blog.Web.Services.Foundations.Posts;
 using Moq;
+using RESTFulSense.Exceptions;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Xunit;
 
 namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 {
@@ -23,6 +26,32 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             this.postService = new PostService(
                 apiBroker: apiBrokerMock.Object,
                 loggingBroker: loggingBrokerMock.Object);
+        }
+
+        private static TheoryData CriticalDependencyExceptions()
+        {
+            string exceptionMessage = GetRandomMessage();
+            var responseMessage = new HttpResponseMessage();
+
+            var httpRequestException = 
+                new HttpRequestException();
+
+            var httpUrlNotFoundException =
+                new HttpResponseUrlNotFoundException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            var httpResponseUnauthorizedException = 
+                new HttpResponseUnauthorizedException(
+                    responseMessage: responseMessage, 
+                    message: exceptionMessage);
+
+            return new TheoryData<Exception>
+            {
+                httpRequestException,
+                httpUrlNotFoundException,
+                httpResponseUnauthorizedException
+            };
         }
 
         private static Post CreateRandomPost() =>
