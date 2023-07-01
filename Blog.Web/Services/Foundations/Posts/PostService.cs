@@ -23,9 +23,9 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 return await this.apiBroker.PostPostAsync(post);
             });
-        public ValueTask<Post> RemovePostByIdAsync(Guid postId)
+        public async ValueTask<Post> RemovePostByIdAsync(Guid postId)
         {
-            throw new NotImplementedException();
+            return await this.apiBroker.DeletePostByIdAsync(postId);
         }
     }
 }

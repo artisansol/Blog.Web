@@ -14,7 +14,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
     public partial class PostServiceTests
     {
         [Fact]
-        public async Task ShouldRemovePostById()
+        public async Task ShouldRemovePostByIdAsync()
         {
             // given
             Guid randomPostId = Guid.NewGuid();
