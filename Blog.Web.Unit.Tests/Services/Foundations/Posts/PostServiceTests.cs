@@ -28,7 +28,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
                 loggingBroker: loggingBrokerMock.Object);
         }
 
-        private static TheoryData CriticalDependencyExceptions()
+        public static TheoryData CriticalDependencyExceptions()
         {
             string exceptionMessage = GetRandomMessage();
             var responseMessage = new HttpResponseMessage();

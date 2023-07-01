@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
+using RESTFulSense.Exceptions;
 using Xeptions;
 
 namespace Blog.Web.Services.Foundations.Posts
@@ -23,6 +25,37 @@ namespace Blog.Web.Services.Foundations.Posts
             {
                 throw CreateAndLogValidationException(invalidPostException);
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedPostDependencyException = 
+                    new FailedPostDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch(HttpResponseUrlNotFoundException httpUrlNotFoundException)
+            {
+                var failedPostDependencyException = 
+                    new FailedPostDependencyException(httpUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch(HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedPostDependencyException = 
+                    new FailedPostDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+        }
+
+        private PostDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var postDependencyException = 
+                new PostDependencyException(exception);
+
+            this.loggingBroker.LogCritical(postDependencyException);
+
+            return postDependencyException;
         }
 
         private PostValidationException CreateAndLogValidationException(Xeption exception)
