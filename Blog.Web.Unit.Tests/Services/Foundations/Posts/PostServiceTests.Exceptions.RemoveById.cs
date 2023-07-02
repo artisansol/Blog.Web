@@ -151,5 +151,49 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfPostIsLockedAndLogItAsync()
+        {
+            // given
+            Guid somePostId = Guid.NewGuid();
+            string responseMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseLockedException = 
+                new HttpResponseLockedException(
+                    httpResponseMessage, 
+                    message: responseMessage);
+
+            var lockedPostException = 
+                new LockedPostException(httpResponseLockedException);
+
+            var expectedPostDependencyValidationException = 
+                new PostDependencyValidationException(lockedPostException);
+
+            this.apiBrokerMock.Setup(broker => 
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseLockedException);
+
+            // when
+            ValueTask<Post> removePostByIdTask = 
+                this.postService.RemovePostByIdAsync(somePostId);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() => 
+                removePostByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker => 
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()), 
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyValidationException))),
+                    Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
