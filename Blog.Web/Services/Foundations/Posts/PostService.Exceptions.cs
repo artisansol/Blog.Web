@@ -69,6 +69,23 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(lockedPostException);
             }
+            catch(HttpResponseException  httpResponseException)
+            {
+                var failedPostDependencyException = 
+                    new FailedPostDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedPostDependencyException);
+            }
+        }
+
+        private PostDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var postDependencyException = 
+                new PostDependencyException(exception);
+
+            this.loggingBroker.LogError(postDependencyException);
+
+            return postDependencyException;
         }
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
