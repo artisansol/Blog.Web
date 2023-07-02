@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
@@ -76,6 +77,23 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyException(failedPostDependencyException);
             }
+            catch(Exception exception)
+            {
+                var failedPostServiceException = 
+                    new FailedPostServiceException(exception);
+
+                throw CreateAndLogServiceException(failedPostServiceException);
+            }
+        }
+
+        private PostServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            var postServiceException = 
+                new PostServiceException(exception);
+
+            this.loggingBroker.LogError(postServiceException);
+
+            return postServiceException;
         }
 
         private PostDependencyException CreateAndLogDependencyException(Xeption exception)
