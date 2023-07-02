@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -91,6 +92,60 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             this.loggingBrokerMock.Verify(broker => 
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostDependencyValidationException))), 
+                    Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfValidationErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid somePostId = Guid.NewGuid();
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary validationErrorsDictionary = randomDictionary;
+
+            string responseMessage = 
+                GetRandomMessage();
+
+            var httpResponseMessage = 
+                new HttpResponseMessage();
+
+            var httpResponseBadRequestException = 
+                new HttpResponseBadRequestException(
+                    responseMessage: httpResponseMessage,
+                    message: responseMessage);
+
+            httpResponseBadRequestException.AddData(validationErrorsDictionary);
+
+            var invalidPostException = 
+                new InvalidPostException(
+                    httpResponseBadRequestException,
+                    data: validationErrorsDictionary);
+
+            var expectedPostDependencyValidationException = 
+                new PostDependencyValidationException(invalidPostException);
+
+            this.apiBrokerMock.Setup(broker => 
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseBadRequestException);
+
+            // when
+            ValueTask<Post> removePostByIdTask = 
+                this.postService.RemovePostByIdAsync(somePostId);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() => 
+                removePostByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker => 
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                Times.Once());
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyValidationException))),
                     Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

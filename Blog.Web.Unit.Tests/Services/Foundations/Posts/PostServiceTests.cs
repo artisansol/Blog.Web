@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Blog.Web.Brokers.Apis;
@@ -52,6 +54,14 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
                 httpUrlNotFoundException,
                 httpResponseUnauthorizedException
             };
+        }
+
+        private static Dictionary<string,List<string>> CreateRandomDictionary()
+        {
+            var filler = 
+                new Filler<Dictionary<string, List<string>>>();
+
+            return filler.Create();
         }
 
         private static Post CreateRandomPost() =>
