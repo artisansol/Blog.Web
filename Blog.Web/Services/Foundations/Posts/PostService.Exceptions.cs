@@ -53,6 +53,15 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(notFoundException);
             }
+            catch(HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidPostException = 
+                    new InvalidPostException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidPostException);
+            }
         }
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
