@@ -28,6 +28,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 Id = postViewProperties.Id,
                 Title = postViewProperties.Title,
                 SubTitle = postViewProperties.SubTitle,
+                Author = postViewProperties.Author,
                 Content = postViewProperties.Content,
                 CreatedDate = postViewProperties.CreatedDate,
                 UpdatedDate = postViewProperties.UpdatedDate
@@ -38,6 +39,8 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             var randomPostView = new PostView
             {
                 Id = postViewProperties.Id,
+                Title = postViewProperties.Title,
+                SubTitle = postViewProperties.SubTitle,
                 Author = postViewProperties.Author,
                 Content = postViewProperties.Content,
                 CreatedDate = postViewProperties.CreatedDate,
