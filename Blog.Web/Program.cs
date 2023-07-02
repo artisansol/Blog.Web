@@ -1,3 +1,4 @@
+using System.Configuration;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
@@ -5,6 +6,8 @@ using Blog.Web.Services.Foundations.Posts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Syncfusion.Blazor;
+using Syncfusion.Licensing;
 
 namespace Blog.Web
 {
@@ -17,6 +20,7 @@ namespace Blog.Web
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
+            builder.Services.AddSyncfusionBlazor();
             AddRootDirectory(builder.Services);
             builder.Services.AddLogging();
             builder.Services.AddHttpClient();
@@ -26,6 +30,12 @@ namespace Blog.Web
             builder.Services.AddScoped<IPostService, PostService>();
 
             var app = builder.Build();
+
+            string syncFusionLicenseKey = 
+                app.Configuration["Syncfusion:LicenseKey"];
+
+            SyncfusionLicenseProvider.RegisterLicense(syncFusionLicenseKey);
+
 
             if (!app.Environment.IsDevelopment())
             {
