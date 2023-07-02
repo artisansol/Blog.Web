@@ -1,3 +1,6 @@
 ﻿@page "/"
-@using Syncfusion.Blazor.Popups
-Index
+@using Blog.Web.Views.Bases
+
+<DialogBase @ref=Dialog Title="My first blog post." OnClick=@CloseDialog ButtonTitle="Submit">
+    <Content>This is the blog content</Content>
+</DialogBase>
