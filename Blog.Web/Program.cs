@@ -1,6 +1,7 @@
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
+using Blog.Web.Services.Foundations.Posts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,7 @@ namespace Blog.Web
             builder.Services.AddScoped<IApiBroker, ApiBroker>();
             builder.Services.AddScoped<ILoggingBroker, LoggingBroker>();
             builder.Services.AddScoped<IDateTimeBroker, DateTimeBroker>();
+            builder.Services.AddScoped<IPostService, PostService>();
 
             var app = builder.Build();
 
