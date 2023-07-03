@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Brokers.Loggings;
@@ -8,6 +9,7 @@ using Blog.Web.Services.Foundations.Posts;
 using Blog.Web.Services.Views.PostViews;
 using Moq;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 {
@@ -44,6 +46,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             new MnemonicString().GetValue();
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
-
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
+            actualException => actualException.SameExceptionAs(expectedException);
     }
 }
