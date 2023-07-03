@@ -7,7 +7,7 @@ using Blog.Web.Services.Foundations.Posts;
 
 namespace Blog.Web.Services.Views.PostViews
 {
-    public class PostViewService : IPostViewService
+    public partial class PostViewService : IPostViewService
     {
         private readonly IPostService postService;
         private readonly ILoggingBroker loggingBroker;
@@ -18,13 +18,15 @@ namespace Blog.Web.Services.Views.PostViews
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId)
-        {
-            Post deletedPost = 
-                await this.postService.RemovePostByIdAsync(postViewId);
+        public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
+            TryCatch(async () =>
+            {
+                ValidatePostViewId(postViewId);
 
-            return MapToPostView(deletedPost);
-        }
+                Post deletedPost =  await this.postService.RemovePostByIdAsync(postViewId);
+
+                return MapToPostView(deletedPost);
+            });
 
         private static PostView MapToPostView(Post post)
         {
