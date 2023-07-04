@@ -93,5 +93,42 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogItasync()
+        {
+            // given
+            var serviceException = new Exception();
+
+            var failedPostServiceException = 
+                new FailedPostServiceException(serviceException);
+
+            var expectedPostServiceException = 
+                new PostServiceException(failedPostServiceException);
+
+            this.apiBrokerMock.Setup(broker => 
+                broker.GetAllPostsAsync())
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<List<Post>> retrieveAllPostsTask = 
+                this.postService.RetrieveAllPostsAsync();
+
+            // then
+            await Assert.ThrowsAsync<PostServiceException>(() => 
+                retrieveAllPostsTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker => 
+                broker.GetAllPostsAsync(), 
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostServiceException))), 
+                    Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
