@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
@@ -16,6 +17,11 @@ namespace Blog.Web.Services.Views.PostViews
         {
             this.postService = postService;
             this.loggingBroker = loggingBroker;
+        }
+
+        public ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
@@ -41,5 +47,6 @@ namespace Blog.Web.Services.Views.PostViews
                 UpdatedDate = post.UpdatedDate
             };
         }
+
     }
 }

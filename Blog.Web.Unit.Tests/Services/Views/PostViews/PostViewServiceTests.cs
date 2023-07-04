@@ -28,6 +28,25 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 this.loggingBrokerMock.Object);
         }
 
+        private static List<dynamic> CreateRandomPostViewPropertiesCollection() 
+        {
+            int randomCount = GetRandomNumber();
+
+            return Enumerable.Range(0, randomCount).Select(item =>
+            {
+                return new
+                {
+                    Id = Guid.NewGuid(),
+                    Title = GetRandomString(),
+                    SubTitle = GetRandomString(),
+                    Content = GetRandomString(),
+                    Author = GetRandomString(),
+                    CreatedDate = GetRandomDate(),
+                    UpdatedDate = GetRandomDate()
+                };
+            }).ToList<dynamic>();
+        }         
+
         private static dynamic CreateRandomPostViewProperties()
         {
             return new
@@ -41,6 +60,12 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 UpdatedDate = GetRandomDate()
             };
         }
+
+        private static string GetRandomName() => 
+            new RealNames().GetValue();
+
+        private static int GetRandomNumber() => 
+            new IntRange(min: 2, max: 10).GetValue();
 
         private static string GetRandomString() => 
             new MnemonicString().GetValue();
