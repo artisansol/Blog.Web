@@ -5,11 +5,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Brokers.Loggings;
+using Blog.Web.Models.Posts.Exceptions;
+using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Services.Foundations.Posts;
 using Blog.Web.Services.Views.PostViews;
 using Moq;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Xunit;
 
 namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 {
@@ -26,6 +29,23 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.postViewService = new PostViewService(
                 this.postServiceMock.Object,
                 this.loggingBrokerMock.Object);
+        }
+
+        public static TheoryData DependencyExceptions()
+        {
+            var innerException = new Xeption();
+
+            var postDependencyException = 
+                new PostDependencyException(innerException);
+
+            var postServiceException = 
+                new PostServiceException(innerException);
+
+            return new TheoryData<Exception>
+            {
+                postDependencyException, 
+                postServiceException
+            };
         }
 
         private static List<dynamic> CreateRandomPostViewPropertiesCollection() 

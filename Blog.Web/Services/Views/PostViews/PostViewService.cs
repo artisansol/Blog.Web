@@ -20,13 +20,13 @@ namespace Blog.Web.Services.Views.PostViews
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
-        {
-            List<Post> retrievedPosts = 
-                await this.postService.RetrieveAllPostsAsync();
+        public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
+            TryCatch(async () => {
+                List<Post> retrievedPosts = 
+                    await this.postService.RetrieveAllPostsAsync();
 
-            return retrievedPosts.Select(AsPostView).ToList();
-        }
+                return retrievedPosts.Select(AsPostView).ToList();
+            });
 
         public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
             TryCatch(async () =>
@@ -54,6 +54,5 @@ namespace Blog.Web.Services.Views.PostViews
                 UpdatedDate = post.UpdatedDate
             };
         }
-
     }
 }
