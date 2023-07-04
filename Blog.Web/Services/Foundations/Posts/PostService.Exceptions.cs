@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
@@ -10,9 +11,10 @@ namespace Blog.Web.Services.Foundations.Posts
 {
     public partial class PostService
     {
-        private delegate ValueTask<Post> ReturningFunction();
+        private delegate ValueTask<Post> ReturningPostFunction();
+        private delegate ValueTask<List<Post>> ReturningPostsFunction();
 
-        private async ValueTask<Post> TryCatch(ReturningFunction returningPostFunction)
+        private async ValueTask<Post> TryCatch(ReturningPostFunction returningPostFunction)
         {
             try
             {
@@ -86,6 +88,34 @@ namespace Blog.Web.Services.Foundations.Posts
             }
         }
 
+        private async ValueTask<List<Post>> TryCatch(ReturningPostsFunction returningPostsFunction)
+        {
+            try
+            {
+                return await returningPostsFunction();
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpUrlNotFoundException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+        }
         private PostServiceException CreateAndLogServiceException(Xeption exception)
         {
             var postServiceException = 

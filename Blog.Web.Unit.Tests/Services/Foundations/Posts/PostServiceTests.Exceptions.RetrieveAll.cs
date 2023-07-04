@@ -41,7 +41,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
                 Times.Once());
 
             this.loggingBrokerMock.Verify(broker => 
-                broker.LogError(It.Is(SameExceptionAs(
+                broker.LogCritical(It.Is(SameExceptionAs(
                     expectedPostDependencyException))), 
                     Times.Once);
 

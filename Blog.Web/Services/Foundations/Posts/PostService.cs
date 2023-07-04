@@ -25,10 +25,11 @@ namespace Blog.Web.Services.Foundations.Posts
                 return await this.apiBroker.PostPostAsync(post);
             });
 
-        public async ValueTask<List<Post>> RetrieveAllPostsAsync()
-        {
-            return await this.apiBroker.GetAllPostsAsync();
-        }
+        public ValueTask<List<Post>> RetrieveAllPostsAsync() =>
+            TryCatch(async () =>
+            {
+                return await this.apiBroker.GetAllPostsAsync();
+            });
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
             TryCatch(async () => {
