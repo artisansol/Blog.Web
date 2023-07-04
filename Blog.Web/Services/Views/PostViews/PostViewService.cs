@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
@@ -19,9 +20,12 @@ namespace Blog.Web.Services.Views.PostViews
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
+        public async ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
         {
-            throw new NotImplementedException();
+            List<Post> retrievedPosts = 
+                await this.postService.RetrieveAllPostsAsync();
+
+            return retrievedPosts.Select(AsPostView).ToList();
         }
 
         public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
@@ -33,6 +37,9 @@ namespace Blog.Web.Services.Views.PostViews
 
                 return MapToPostView(deletedPost);
             });
+
+        private static Func<Post, PostView> AsPostView => 
+            post => MapToPostView(post);
 
         private static PostView MapToPostView(Post post)
         {
