@@ -25,9 +25,9 @@ namespace Blog.Web.Services.Foundations.Posts
                 return await this.apiBroker.PostPostAsync(post);
             });
 
-        public ValueTask<List<Post>> RetrieveAllPostsAsync()
+        public async ValueTask<List<Post>> RetrieveAllPostsAsync()
         {
-            throw new NotImplementedException();
+            return await this.apiBroker.GetAllPostsAsync();
         }
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
