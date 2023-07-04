@@ -1,6 +1,7 @@
 ﻿using Blog.Web.Models.Posts.Exceptions;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xeptions;
@@ -38,6 +39,23 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyException(postServiceException);
             }
+            catch(Exception exception)
+            {
+                var failedPostViewServiceException = 
+                    new FailedPostViewServiceException(exception);
+
+                throw CreateAndLogServiceException(failedPostViewServiceException);
+            }
+        }
+
+        private PostViewServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            var postViewServiceException = 
+                new PostViewServiceException(exception);
+
+            this.loggingBroker.LogError(postViewServiceException);
+
+            return postViewServiceException;
         }
 
         private PostViewDependencyException CreateAndLogDependencyException(Xeption innerException)
