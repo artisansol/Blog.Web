@@ -115,6 +115,13 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedPostDependencyException);
+            }
         }
         private PostServiceException CreateAndLogServiceException(Xeption exception)
         {
