@@ -122,6 +122,13 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyException(failedPostDependencyException);
             }
+            catch (Exception exception)
+            {
+                var failedPostServiceException = 
+                    new FailedPostServiceException(exception);
+
+                throw CreateAndLogServiceException(failedPostServiceException);
+            }
         }
         private PostServiceException CreateAndLogServiceException(Xeption exception)
         {
