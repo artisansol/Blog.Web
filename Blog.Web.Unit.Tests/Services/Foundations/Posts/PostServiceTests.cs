@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Blog.Web.Brokers.Apis;
@@ -63,6 +64,9 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             return filler.Create();
         }
+
+        private static List<Post> CreateRandomPosts() =>
+            CreatePostFiller().Create(count: GetRandomNumber()).ToList();
 
         private static Post CreateRandomPost() =>
             CreatePostFiller().Create();

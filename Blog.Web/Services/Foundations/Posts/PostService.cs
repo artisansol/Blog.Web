@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.Loggings;
@@ -23,13 +24,18 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 return await this.apiBroker.PostPostAsync(post);
             });
+
+        public ValueTask<List<Post>> RetrieveAllPostsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
             TryCatch(async () => {
 
                 ValidatePostId(postId);
 
                 return await this.apiBroker.DeletePostByIdAsync(postId);
-            });        
-
+            });
     }
 }
