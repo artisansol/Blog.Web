@@ -13,8 +13,4 @@
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="22.1.37" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Components\" />
-  </ItemGroup>
-
 </Project>
