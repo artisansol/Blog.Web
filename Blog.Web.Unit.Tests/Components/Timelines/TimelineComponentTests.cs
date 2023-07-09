@@ -18,7 +18,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
     public partial class TimelineComponentTests : TestContext
     {
         private readonly Mock<IPostViewService> postViewServiceMock;
-        private readonly IRenderedComponent<TimelineComponent> renderedTimelineComponent;
+        private IRenderedComponent<TimelineComponent> renderedTimelineComponent;
         public TimelineComponentTests()
         {
             this.postViewServiceMock = new Mock<IPostViewService>();
@@ -28,7 +28,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             this.JSInterop.Mode = JSRuntimeMode.Loose;
         }
 
-        private static List<PostView> CreateRandomPostView() =>
+        private static List<PostView> CreateRandomPostViews() =>
             CreatePostViewFiller().Create(count: GetRandomNumber()).ToList();
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
