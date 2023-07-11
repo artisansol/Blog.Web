@@ -23,6 +23,14 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 throw CreateAndLogValidationException(invalidPostViewException);
             }
+            catch (PostValidationException postValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(postValidationException);
+            }
+            catch (PostDependencyValidationException postDependencyValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(postDependencyValidationException);
+            }
         }
 
         private async ValueTask<List<PostView>> TryCatch(ReturningPostViewsFunction returningPostViewsFunction)
@@ -46,6 +54,16 @@ namespace Blog.Web.Services.Views.PostViews
 
                 throw CreateAndLogServiceException(failedPostViewServiceException);
             }
+        }
+
+        private PostViewDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var postViewDependencyValidationException = 
+                new PostViewDependencyValidationException(exception.InnerException as Xeption);
+
+            this.loggingBroker.LogError(postViewDependencyValidationException);
+
+            return postViewDependencyValidationException;
         }
 
         private PostViewServiceException CreateAndLogServiceException(Xeption exception)

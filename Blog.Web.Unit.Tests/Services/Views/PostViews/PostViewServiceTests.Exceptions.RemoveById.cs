@@ -21,8 +21,10 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         {
             // given
             Guid somePostViewId = Guid.NewGuid();
+
             var expectedPostViewDependencyValidationException = 
-                new PostViewDependencyValidationException(dependencyValidationException);
+                new PostViewDependencyValidationException(
+                    dependencyValidationException.InnerException as Xeption);
 
             this.postServiceMock.Setup(service => 
                 service.RemovePostByIdAsync(somePostViewId))
