@@ -53,9 +53,11 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
-        public async Task ShouldThrowDependencyExceptionOnRemoveByIdIfDependencyErrorOccursAndLogItAsync(Xeption dependencyException)
+        public async Task ShouldThrowDependencyExceptionOnRemoveByIdIfDependencyErrorOccursAndLogItAsync(
+            Xeption dependencyException)
         {
             // given
+            Guid somePostViewId = Guid.NewGuid();
 
             var expectPostViewDependencyException = 
                 new PostViewDependencyException(dependencyException);
@@ -66,7 +68,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
             // when
             ValueTask<PostView> removePostViewByIdTask = 
-                this.postViewService.RemovePostViewByIdAsync(It.IsAny<Guid>());
+                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
 
             // then
             await Assert.ThrowsAsync<PostViewDependencyException>(() => 
@@ -84,6 +86,5 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.postServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
-
     }
 }

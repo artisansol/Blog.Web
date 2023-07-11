@@ -31,6 +31,14 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyValidationException(postDependencyValidationException);
             }
+            catch (PostDependencyException postDependencyException)
+            {
+                throw CreateAndLogDependencyException(postDependencyException);
+            }
+            catch (PostServiceException  postServiceException)
+            {
+                throw CreateAndLogDependencyException(postServiceException);
+            }
         }
 
         private async ValueTask<List<PostView>> TryCatch(ReturningPostViewsFunction returningPostViewsFunction)
@@ -76,10 +84,10 @@ namespace Blog.Web.Services.Views.PostViews
             return postViewServiceException;
         }
 
-        private PostViewDependencyException CreateAndLogDependencyException(Xeption innerException)
+        private PostViewDependencyException CreateAndLogDependencyException(Xeption exception)
         {
             var postViewDependencyException = 
-                new PostViewDependencyException(innerException);
+                new PostViewDependencyException(exception);
 
             this.loggingBroker.LogError(postViewDependencyException);
 
