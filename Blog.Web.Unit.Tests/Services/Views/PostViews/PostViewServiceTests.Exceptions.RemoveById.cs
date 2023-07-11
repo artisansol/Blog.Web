@@ -86,5 +86,41 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.postServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRemoveByIdIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid somePostViewId = Guid.NewGuid();
+            var serviceException = new Xeption();
+
+            var expectedPostViewServiceException = 
+                new PostViewServiceException(serviceException);
+
+            this.postServiceMock.Setup(service => 
+                service.RemovePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<PostView> removePostViewByIdTask = 
+                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
+
+            // then
+            await Assert.ThrowsAsync<PostViewServiceException>(() =>  
+                removePostViewByIdTask.AsTask());
+
+            this.postServiceMock.Verify(service => 
+                service.RemovePostByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostViewServiceException))), 
+                    Times.Once);
+
+            this.postServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
     }
 }
