@@ -49,7 +49,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionIfServiceErrorOccursAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogItAsync()
         {
             // given
             var serviceException = new Exception();

@@ -35,9 +35,16 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyException(postDependencyException);
             }
-            catch (PostServiceException  postServiceException)
+            catch (PostServiceException postServiceException)
             {
                 throw CreateAndLogDependencyException(postServiceException);
+            }
+            catch (Exception exception)
+            {
+                var failedPostViewServiceException =
+                    new FailedPostViewServiceException(exception);
+
+                throw CreateAndLogServiceException(failedPostViewServiceException);
             }
         }
 
@@ -55,9 +62,9 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyException(postServiceException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                var failedPostViewServiceException = 
+                var failedPostViewServiceException =
                     new FailedPostViewServiceException(exception);
 
                 throw CreateAndLogServiceException(failedPostViewServiceException);

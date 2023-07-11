@@ -92,10 +92,13 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         {
             // given
             Guid somePostViewId = Guid.NewGuid();
-            var serviceException = new Xeption();
+            var serviceException = new Exception();
+
+            var failedPostViewServiceException = 
+                new FailedPostViewServiceException(serviceException);
 
             var expectedPostViewServiceException = 
-                new PostViewServiceException(serviceException);
+                new PostViewServiceException(failedPostViewServiceException);
 
             this.postServiceMock.Setup(service => 
                 service.RemovePostByIdAsync(It.IsAny<Guid>()))
