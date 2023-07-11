@@ -48,6 +48,23 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             };
         }
 
+        public static TheoryData ValidationExceptions()
+        {
+            var innerException = new Xeption();
+
+            var postValidationException =
+                new PostValidationException(innerException);
+
+            var postDependencyValidationException =
+                new PostDependencyValidationException(innerException);
+
+            return new TheoryData<Exception>
+            {
+                postValidationException,
+                postDependencyValidationException
+            };
+        }
+
         private static List<dynamic> CreateRandomPostViewPropertiesCollection() 
         {
             int randomCount = GetRandomNumber();

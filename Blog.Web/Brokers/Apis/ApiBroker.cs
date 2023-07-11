@@ -9,13 +9,13 @@ namespace Blog.Web.Brokers.Apis
 {
     public partial class ApiBroker : IApiBroker
     {
-        private readonly IRESTFulApiFactoryClient apiClient;
         private readonly HttpClient httpClient;
+        private readonly IRESTFulApiFactoryClient apiClient;
 
-        public ApiBroker(IConfiguration configuration, HttpClient httpClient)
+        public ApiBroker(HttpClient httpClient, IConfiguration configuration)
         {
-            this.apiClient = GetApiClient(configuration);
             this.httpClient = httpClient;
+            this.apiClient = GetApiClient(configuration);
         }
 
         private async ValueTask<T> PostAsync<T>(string realtiveUrl, T content) =>

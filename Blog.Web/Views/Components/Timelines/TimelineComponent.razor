@@ -1,5 +1,13 @@
-﻿<h3>TimelineComponent</h3>
+﻿@using Blog.Web.Views.Bases
+@using Models.Views.Components.Timelines
 
-@code {
-
+@if (State == TimelineComponentState.Content)
+{
+    <Virtualize Items=@PostViews Context=postView>
+        <CardBase Title=@postView.Title
+                  SubTitle=@postView.SubTitle>
+            <Content>@postView.Content</Content>
+        </CardBase>
+    </Virtualize>
 }
+

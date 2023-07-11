@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
 using Moq;
+using Xeptions;
 using Xunit;
 
 namespace Blog.Web.Unit.Tests.Services.Views.PostViews
@@ -48,5 +49,6 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.postServiceMock.VerifyNoOtherCalls();
         }
+
     }
 }
