@@ -4,9 +4,13 @@
 @if (State == TimelineComponentState.Content)
 {
     <Virtualize Items=@PostViews Context=postView>
-        <CardBase Title=@postView.Title
-                  SubTitle=@postView.SubTitle>
-            <Content>@postView.Content</Content>
+        <CardBase Title=@postView.Author
+                  SubTitle=@postView.UpdatedDate.ToString("dd/MM/yyyy")>
+            <Content>
+                <p>
+                    @postView.Content
+                </p>
+            </Content>
         </CardBase>
     </Virtualize>
 }
