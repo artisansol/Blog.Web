@@ -20,7 +20,7 @@ namespace Blog.Web.Views.Components.Timelines
 
         protected async override Task OnInitializedAsync()
         {
-            this.PostViews = 
+            this.PostViews =
                 await this.PostViewService.RetrieveAllPostViewsAsync();
 
             this.State = TimelineComponentState.Content;

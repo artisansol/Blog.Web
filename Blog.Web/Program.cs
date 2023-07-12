@@ -1,4 +1,3 @@
-using System.Configuration;
 using Blog.Web.Brokers.Apis;
 using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
@@ -29,11 +28,11 @@ namespace Blog.Web
             builder.Services.AddScoped<ILoggingBroker, LoggingBroker>();
             builder.Services.AddScoped<IDateTimeBroker, DateTimeBroker>();
             builder.Services.AddScoped<IPostService, PostService>();
-            builder.Services.AddScoped<IPostViewService,PostViewService>();
+            builder.Services.AddScoped<IPostViewService, PostViewService>();
 
             var app = builder.Build();
 
-            string syncFusionLicenseKey = 
+            string syncFusionLicenseKey =
                 app.Configuration["Syncfusion:LicenseKey"];
 
             SyncfusionLicenseProvider.RegisterLicense(syncFusionLicenseKey);

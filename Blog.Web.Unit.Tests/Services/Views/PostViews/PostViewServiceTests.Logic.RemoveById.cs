@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
@@ -20,7 +17,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             Guid randomPostViewId = Guid.NewGuid();
             Guid inputPostViewId = randomPostViewId;
 
-            dynamic postViewProperties = 
+            dynamic postViewProperties =
                 CreateRandomPostViewProperties();
 
             var randomPost = new Post
@@ -49,18 +46,18 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
             PostView expectedPostView = randomPostView;
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(inputPostViewId))
                     .ReturnsAsync(removedPost);
 
             // when
-            PostView actualPostView = 
+            PostView actualPostView =
                 await this.postViewService.RemovePostViewByIdAsync(inputPostViewId);
 
             // then
             actualPostView.Should().BeEquivalentTo(expectedPostView);
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.RemovePostByIdAsync(inputPostViewId),
                 Times.Once());
 

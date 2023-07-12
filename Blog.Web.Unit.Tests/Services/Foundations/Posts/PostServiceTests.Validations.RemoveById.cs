@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
@@ -19,30 +16,30 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             // given
             Guid invalidPostId = Guid.Empty;
 
-            var invalidPostException = 
+            var invalidPostException =
                 new InvalidPostException();
 
             invalidPostException.AddData(
-                key: nameof(Post.Id), 
+                key: nameof(Post.Id),
                 values: "Id is required.");
 
-            var expectedPostValidationException = 
+            var expectedPostValidationException =
                 new PostValidationException(invalidPostException);
 
             // when
-            ValueTask<Post> removePostByIdTask = 
+            ValueTask<Post> removePostByIdTask =
                 this.postService.RemovePostByIdAsync(invalidPostId);
 
             // then
-            await Assert.ThrowsAsync<PostValidationException>(() => 
+            await Assert.ThrowsAsync<PostValidationException>(() =>
                 removePostByIdTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostValidationException))),
                     Times.Once());
 
-            this.apiBrokerMock.Verify(broker => 
+            this.apiBrokerMock.Verify(broker =>
                 broker.DeletePostByIdAsync(It.IsAny<Guid>()),
                 Times.Never);
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using FluentAssertions;
@@ -21,18 +18,18 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             List<Post> storagePosts = randomPosts;
             List<Post> expectedPosts = storagePosts.DeepClone();
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.GetAllPostsAsync())
                     .ReturnsAsync(expectedPosts);
 
             // when
-            List<Post> retrievedPosts = 
+            List<Post> retrievedPosts =
                 await this.postService.RetrieveAllPostsAsync();
 
             // then
             retrievedPosts.Should().BeEquivalentTo(expectedPosts);
 
-            this.apiBrokerMock.Verify(broker => 
+            this.apiBrokerMock.Verify(broker =>
                 broker.GetAllPostsAsync(),
                 Times.Once);
 

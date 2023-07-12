@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts.Exceptions;
-using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Services.Foundations.Posts;
 using Blog.Web.Services.Views.PostViews;
 using Moq;
@@ -35,15 +32,15 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         {
             var innerException = new Xeption();
 
-            var postDependencyException = 
+            var postDependencyException =
                 new PostDependencyException(innerException);
 
-            var postServiceException = 
+            var postServiceException =
                 new PostServiceException(innerException);
 
             return new TheoryData<Exception>
             {
-                postDependencyException, 
+                postDependencyException,
                 postServiceException
             };
         }
@@ -65,7 +62,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             };
         }
 
-        private static List<dynamic> CreateRandomPostViewPropertiesCollection() 
+        private static List<dynamic> CreateRandomPostViewPropertiesCollection()
         {
             int randomCount = GetRandomNumber();
 
@@ -82,7 +79,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                     UpdatedDate = GetRandomDate()
                 };
             }).ToList<dynamic>();
-        }         
+        }
 
         private static dynamic CreateRandomPostViewProperties()
         {
@@ -98,13 +95,13 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             };
         }
 
-        private static string GetRandomName() => 
+        private static string GetRandomName() =>
             new RealNames().GetValue();
 
-        private static int GetRandomNumber() => 
+        private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
-        private static string GetRandomString() => 
+        private static string GetRandomString() =>
             new MnemonicString().GetValue();
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
@@ -17,7 +15,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         public async Task ShouldRetrieveAllPostViewsAsync()
         {
             // given
-            List<dynamic> postViewsProperties = 
+            List<dynamic> postViewsProperties =
                 CreateRandomPostViewPropertiesCollection();
 
             List<Post> randomPosts = postViewsProperties.Select(property => new Post
@@ -46,7 +44,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
             List<PostView> expectedPostViews = randomPostViews;
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RetrieveAllPostsAsync())
                     .ReturnsAsync(retrievedPosts);
 

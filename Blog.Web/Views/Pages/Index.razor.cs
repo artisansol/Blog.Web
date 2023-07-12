@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Blog.Web.Views.Bases;
+﻿using Blog.Web.Views.Bases;
 using Microsoft.AspNetCore.Components;
 
 namespace Blog.Web.Views.Pages

@@ -1,9 +1,9 @@
-﻿using Blog.Web.Models.Posts.Exceptions;
-using Blog.Web.Models.PostViews;
-using Blog.Web.Models.PostViews.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blog.Web.Models.Posts.Exceptions;
+using Blog.Web.Models.PostViews;
+using Blog.Web.Models.PostViews.Exceptions;
 using Xeptions;
 
 namespace Blog.Web.Services.Views.PostViews
@@ -73,7 +73,7 @@ namespace Blog.Web.Services.Views.PostViews
 
         private PostViewDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var postViewDependencyValidationException = 
+            var postViewDependencyValidationException =
                 new PostViewDependencyValidationException(exception.InnerException as Xeption);
 
             this.loggingBroker.LogError(postViewDependencyValidationException);
@@ -83,7 +83,7 @@ namespace Blog.Web.Services.Views.PostViews
 
         private PostViewServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var postViewServiceException = 
+            var postViewServiceException =
                 new PostViewServiceException(exception);
 
             this.loggingBroker.LogError(postViewServiceException);
@@ -93,7 +93,7 @@ namespace Blog.Web.Services.Views.PostViews
 
         private PostViewDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var postViewDependencyException = 
+            var postViewDependencyException =
                 new PostViewDependencyException(exception);
 
             this.loggingBroker.LogError(postViewDependencyException);

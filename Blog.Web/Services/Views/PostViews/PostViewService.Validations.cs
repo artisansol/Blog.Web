@@ -1,12 +1,12 @@
-﻿using Blog.Web.Models.PostViews;
+﻿using System;
+using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
-using System;
 
 namespace Blog.Web.Services.Views.PostViews
 {
     public partial class PostViewService
     {
-        private static void ValidatePostViewId(Guid postViewId) => 
+        private static void ValidatePostViewId(Guid postViewId) =>
             Validate((Rule: IsInvalid(postViewId), Parameter: nameof(PostView.Id)));
 
         private static dynamic IsInvalid(Guid id) => new

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Blog.Web.Models.Posts.Exceptions;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
 using Moq;
@@ -20,26 +17,26 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             Xeption dependencyException)
         {
             // given
-            var expectedPostViewDependencyException = 
+            var expectedPostViewDependencyException =
                 new PostViewDependencyException(dependencyException);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RetrieveAllPostsAsync())
                     .ThrowsAsync(dependencyException);
 
             // when
-            ValueTask<List<PostView>> retrieveAllPostViewsTask = 
+            ValueTask<List<PostView>> retrieveAllPostViewsTask =
                 this.postViewService.RetrieveAllPostViewsAsync();
 
             // then
             await Assert.ThrowsAsync<PostViewDependencyException>(() =>
                 retrieveAllPostViewsTask.AsTask());
 
-            this.postServiceMock.Verify(service => 
-                service.RetrieveAllPostsAsync(), 
+            this.postServiceMock.Verify(service =>
+                service.RetrieveAllPostsAsync(),
                 Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewDependencyException))),
                     Times.Once());
@@ -54,31 +51,31 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             var serviceException = new Exception();
 
-            var failedPostViewServiceException = 
+            var failedPostViewServiceException =
                 new FailedPostViewServiceException(serviceException);
 
-            var expectedPostViewServiceException = 
+            var expectedPostViewServiceException =
                 new PostViewServiceException(failedPostViewServiceException);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RetrieveAllPostsAsync())
                     .ThrowsAsync(serviceException);
 
             // when
-            ValueTask<List<PostView>> retrieveAllPostViewsTask = 
+            ValueTask<List<PostView>> retrieveAllPostViewsTask =
                 this.postViewService.RetrieveAllPostViewsAsync();
 
             // then
-            await Assert.ThrowsAsync<PostViewServiceException>(() => 
+            await Assert.ThrowsAsync<PostViewServiceException>(() =>
                 retrieveAllPostViewsTask.AsTask());
 
-            this.postServiceMock.Verify(service => 
-                service.RetrieveAllPostsAsync(), 
+            this.postServiceMock.Verify(service =>
+                service.RetrieveAllPostsAsync(),
                 Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostViewServiceException))), 
+                    expectedPostViewServiceException))),
                     Times.Once());
 
             this.postServiceMock.VerifyNoOtherCalls();

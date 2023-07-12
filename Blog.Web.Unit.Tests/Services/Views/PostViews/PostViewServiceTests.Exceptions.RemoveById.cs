@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
@@ -22,29 +19,29 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             Guid somePostViewId = Guid.NewGuid();
 
-            var expectedPostViewDependencyValidationException = 
+            var expectedPostViewDependencyValidationException =
                 new PostViewDependencyValidationException(
                     dependencyValidationException.InnerException as Xeption);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(somePostViewId))
                     .ThrowsAsync(dependencyValidationException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask = 
+            ValueTask<PostView> removePostViewByIdTask =
                 this.postViewService.RemovePostViewByIdAsync(somePostViewId);
 
             // then
-            await Assert.ThrowsAsync<PostViewDependencyValidationException>(() => 
+            await Assert.ThrowsAsync<PostViewDependencyValidationException>(() =>
                 removePostViewByIdTask.AsTask());
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostViewDependencyValidationException))), 
+                    expectedPostViewDependencyValidationException))),
                     Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();
@@ -59,28 +56,28 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             Guid somePostViewId = Guid.NewGuid();
 
-            var expectPostViewDependencyException = 
+            var expectPostViewDependencyException =
                 new PostViewDependencyException(dependencyException);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()))
                     .ThrowsAsync(dependencyException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask = 
+            ValueTask<PostView> removePostViewByIdTask =
                 this.postViewService.RemovePostViewByIdAsync(somePostViewId);
 
             // then
-            await Assert.ThrowsAsync<PostViewDependencyException>(() => 
+            await Assert.ThrowsAsync<PostViewDependencyException>(() =>
                 removePostViewByIdTask.AsTask());
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()),
                     Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectPostViewDependencyException))), 
+                    expectPostViewDependencyException))),
                         Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();
@@ -94,31 +91,31 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             Guid somePostViewId = Guid.NewGuid();
             var serviceException = new Exception();
 
-            var failedPostViewServiceException = 
+            var failedPostViewServiceException =
                 new FailedPostViewServiceException(serviceException);
 
-            var expectedPostViewServiceException = 
+            var expectedPostViewServiceException =
                 new PostViewServiceException(failedPostViewServiceException);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()))
                     .ThrowsAsync(serviceException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask = 
+            ValueTask<PostView> removePostViewByIdTask =
                 this.postViewService.RemovePostViewByIdAsync(somePostViewId);
 
             // then
-            await Assert.ThrowsAsync<PostViewServiceException>(() =>  
+            await Assert.ThrowsAsync<PostViewServiceException>(() =>
                 removePostViewByIdTask.AsTask());
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostViewServiceException))), 
+                    expectedPostViewServiceException))),
                     Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();

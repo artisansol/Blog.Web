@@ -30,58 +30,58 @@ namespace Blog.Web.Services.Foundations.Posts
             }
             catch (HttpRequestException httpRequestException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpRequestException);
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseUrlNotFoundException httpUrlNotFoundException)
+            catch (HttpResponseUrlNotFoundException httpUrlNotFoundException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpUrlNotFoundException);
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseUnauthorizedException);
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseNotFoundException httpResponseNotFoundException)
+            catch (HttpResponseNotFoundException httpResponseNotFoundException)
             {
-                var notFoundException = 
+                var notFoundException =
                     new NotFoundException(httpResponseNotFoundException);
 
                 throw CreateAndLogDependencyValidationException(notFoundException);
             }
-            catch(HttpResponseBadRequestException httpResponseBadRequestException)
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
             {
-                var invalidPostException = 
+                var invalidPostException =
                     new InvalidPostException(
                         httpResponseBadRequestException,
                         httpResponseBadRequestException.Data);
 
                 throw CreateAndLogDependencyValidationException(invalidPostException);
             }
-            catch(HttpResponseLockedException httpResponseLockedException)
+            catch (HttpResponseLockedException httpResponseLockedException)
             {
-                var lockedPostException = 
+                var lockedPostException =
                     new LockedPostException(httpResponseLockedException);
 
                 throw CreateAndLogDependencyValidationException(lockedPostException);
             }
-            catch(HttpResponseException  httpResponseException)
+            catch (HttpResponseException httpResponseException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseException);
 
                 throw CreateAndLogDependencyException(failedPostDependencyException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                var failedPostServiceException = 
+                var failedPostServiceException =
                     new FailedPostServiceException(exception);
 
                 throw CreateAndLogServiceException(failedPostServiceException);
@@ -124,7 +124,7 @@ namespace Blog.Web.Services.Foundations.Posts
             }
             catch (Exception exception)
             {
-                var failedPostServiceException = 
+                var failedPostServiceException =
                     new FailedPostServiceException(exception);
 
                 throw CreateAndLogServiceException(failedPostServiceException);
@@ -132,7 +132,7 @@ namespace Blog.Web.Services.Foundations.Posts
         }
         private PostServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var postServiceException = 
+            var postServiceException =
                 new PostServiceException(exception);
 
             this.loggingBroker.LogError(postServiceException);
@@ -142,7 +142,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
         private PostDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var postDependencyException = 
+            var postDependencyException =
                 new PostDependencyException(exception);
 
             this.loggingBroker.LogError(postDependencyException);
@@ -152,7 +152,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var postDependencyValidationException = 
+            var postDependencyValidationException =
                 new PostDependencyValidationException(exception);
 
             this.loggingBroker.LogError(postDependencyValidationException);
@@ -162,7 +162,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
         private PostDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
         {
-            var postDependencyException = 
+            var postDependencyException =
                 new PostDependencyException(exception);
 
             this.loggingBroker.LogCritical(postDependencyException);

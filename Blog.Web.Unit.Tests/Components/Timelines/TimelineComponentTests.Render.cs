@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.Timelines;
 using Blog.Web.Views.Bases;
@@ -21,11 +17,11 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         public void ShouldInitComponent()
         {
             // given
-            TimelineComponentState expectedState = 
+            TimelineComponentState expectedState =
                 TimelineComponentState.Loading;
 
             // when
-            var initialTimelineComponent = 
+            var initialTimelineComponent =
                 new TimelineComponent();
 
             // then
@@ -40,16 +36,16 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         public async void ShouldRenderPosts()
         {
             // given
-            TimelineComponentState expectedState = 
+            TimelineComponentState expectedState =
                 TimelineComponentState.Content;
 
-            List<PostView> randomPostViews = 
+            List<PostView> randomPostViews =
                 CreateRandomPostViews();
 
-            List<PostView> retrievedPostViews = 
+            List<PostView> retrievedPostViews =
                 randomPostViews;
 
-            List<PostView> expectedPostViews = 
+            List<PostView> expectedPostViews =
                 retrievedPostViews.DeepClone();
 
             this.postViewServiceMock.Setup(service =>
@@ -72,7 +68,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
 
             postComponents.Should().HaveCount(expectedPostViews.Count);
 
-            this.postViewServiceMock.Verify(service => 
+            this.postViewServiceMock.Verify(service =>
                 service.RetrieveAllPostViewsAsync(),
                     Times.Once());
 

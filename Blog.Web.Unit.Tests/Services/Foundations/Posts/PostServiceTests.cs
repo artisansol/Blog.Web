@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -36,7 +35,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             string exceptionMessage = GetRandomMessage();
             var responseMessage = new HttpResponseMessage();
 
-            var httpRequestException = 
+            var httpRequestException =
                 new HttpRequestException();
 
             var httpUrlNotFoundException =
@@ -44,9 +43,9 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
                     responseMessage: responseMessage,
                     message: exceptionMessage);
 
-            var httpResponseUnauthorizedException = 
+            var httpResponseUnauthorizedException =
                 new HttpResponseUnauthorizedException(
-                    responseMessage: responseMessage, 
+                    responseMessage: responseMessage,
                     message: exceptionMessage);
 
             return new TheoryData<Exception>
@@ -57,9 +56,9 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             };
         }
 
-        private static Dictionary<string,List<string>> CreateRandomDictionary()
+        private static Dictionary<string, List<string>> CreateRandomDictionary()
         {
-            var filler = 
+            var filler =
                 new Filler<Dictionary<string, List<string>>>();
 
             return filler.Create();

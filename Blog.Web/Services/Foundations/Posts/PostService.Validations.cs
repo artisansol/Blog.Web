@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 
@@ -31,7 +30,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidPostException = 
+            var invalidPostException =
                 new InvalidPostException();
 
             foreach ((dynamic rule, string parameter) in validations)
@@ -39,7 +38,7 @@ namespace Blog.Web.Services.Foundations.Posts
                 if (rule.Condition)
                 {
                     invalidPostException.UpsertDataList(
-                        key: parameter, 
+                        key: parameter,
                         value: rule.Message);
                 }
             }

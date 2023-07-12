@@ -21,8 +21,9 @@ namespace Blog.Web.Services.Views.PostViews
         }
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
-            TryCatch(async () => {
-                List<Post> retrievedPosts = 
+            TryCatch(async () =>
+            {
+                List<Post> retrievedPosts =
                     await this.postService.RetrieveAllPostsAsync();
 
                 return retrievedPosts.Select(AsPostView).ToList();
@@ -33,12 +34,12 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 ValidatePostViewId(postViewId);
 
-                Post deletedPost =  await this.postService.RemovePostByIdAsync(postViewId);
+                Post deletedPost = await this.postService.RemovePostByIdAsync(postViewId);
 
                 return MapToPostView(deletedPost);
             });
 
-        private static Func<Post, PostView> AsPostView => 
+        private static Func<Post, PostView> AsPostView =>
             post => MapToPostView(post);
 
         private static PostView MapToPostView(Post post)

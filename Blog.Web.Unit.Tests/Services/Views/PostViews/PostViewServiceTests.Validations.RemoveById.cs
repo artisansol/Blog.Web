@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
 using Moq;
-using Xeptions;
 using Xunit;
 
 namespace Blog.Web.Unit.Tests.Services.Views.PostViews
@@ -19,31 +15,31 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             Guid invalidPostViewId = Guid.Empty;
 
-            var invalidPostViewException = 
+            var invalidPostViewException =
                 new InvalidPostViewException();
 
             invalidPostViewException.AddData(
-                key: nameof(PostView.Id), 
+                key: nameof(PostView.Id),
                 values: "Id is required.");
 
-            var expectedPostViewValidationException = 
+            var expectedPostViewValidationException =
                 new PostViewValidationException(invalidPostViewException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask = 
+            ValueTask<PostView> removePostViewByIdTask =
                 this.postViewService.RemovePostViewByIdAsync(invalidPostViewId);
 
             // then
-            await Assert.ThrowsAsync<PostViewValidationException>(() => 
+            await Assert.ThrowsAsync<PostViewValidationException>(() =>
                 removePostViewByIdTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostViewValidationException))), 
+                    expectedPostViewValidationException))),
                     Times.Once);
 
-            this.postServiceMock.Verify(service => 
-                service.RemovePostByIdAsync(It.IsAny<Guid>()), 
+            this.postServiceMock.Verify(service =>
+                service.RemovePostByIdAsync(It.IsAny<Guid>()),
                 Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();

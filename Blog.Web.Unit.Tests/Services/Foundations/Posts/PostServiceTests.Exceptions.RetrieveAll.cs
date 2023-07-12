@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
@@ -20,31 +18,31 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             Exception criticalDependencyException)
         {
             // given
-            var failedPostDependencyException = 
+            var failedPostDependencyException =
                 new FailedPostDependencyException(criticalDependencyException);
 
-            var expectedPostDependencyException = 
+            var expectedPostDependencyException =
                 new PostDependencyException(failedPostDependencyException);
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.GetAllPostsAsync())
                     .ThrowsAsync(criticalDependencyException);
 
             // when
-            ValueTask<List<Post>> retrieveAllPostsTask = 
+            ValueTask<List<Post>> retrieveAllPostsTask =
                 this.postService.RetrieveAllPostsAsync();
 
             // then
-            await Assert.ThrowsAsync<PostDependencyException>(() => 
+            await Assert.ThrowsAsync<PostDependencyException>(() =>
                 retrieveAllPostsTask.AsTask());
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.GetAllPostsAsync(), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetAllPostsAsync(),
                 Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
-                    expectedPostDependencyException))), 
+                    expectedPostDependencyException))),
                     Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
@@ -58,34 +56,34 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             string someMessage = GetRandomMessage();
             var httpResponseMessage = new HttpResponseMessage();
 
-            var httpResponseException = 
+            var httpResponseException =
                 new HttpResponseException(
-                    httpResponseMessage: httpResponseMessage, 
+                    httpResponseMessage: httpResponseMessage,
                     message: someMessage);
 
-            var failedPostDependencyException = 
+            var failedPostDependencyException =
                 new FailedPostDependencyException(httpResponseException);
 
-            var expectedPostDependencyException = 
+            var expectedPostDependencyException =
                 new PostDependencyException(failedPostDependencyException);
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.GetAllPostsAsync())
                     .ThrowsAsync(httpResponseException);
 
             // when
-            ValueTask<List<Post>> retrieveAllPostsTask = 
+            ValueTask<List<Post>> retrieveAllPostsTask =
                 postService.RetrieveAllPostsAsync();
 
             // then
-            await Assert.ThrowsAsync<PostDependencyException>(() => 
+            await Assert.ThrowsAsync<PostDependencyException>(() =>
                 retrieveAllPostsTask.AsTask());
 
-            this.apiBrokerMock.Verify(broker => 
+            this.apiBrokerMock.Verify(broker =>
             broker.GetAllPostsAsync(),
             Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostDependencyException))),
                     Times.Once);
@@ -100,31 +98,31 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             // given
             var serviceException = new Exception();
 
-            var failedPostServiceException = 
+            var failedPostServiceException =
                 new FailedPostServiceException(serviceException);
 
-            var expectedPostServiceException = 
+            var expectedPostServiceException =
                 new PostServiceException(failedPostServiceException);
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.GetAllPostsAsync())
                     .ThrowsAsync(serviceException);
 
             // when
-            ValueTask<List<Post>> retrieveAllPostsTask = 
+            ValueTask<List<Post>> retrieveAllPostsTask =
                 this.postService.RetrieveAllPostsAsync();
 
             // then
-            await Assert.ThrowsAsync<PostServiceException>(() => 
+            await Assert.ThrowsAsync<PostServiceException>(() =>
                 retrieveAllPostsTask.AsTask());
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.GetAllPostsAsync(), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetAllPostsAsync(),
                 Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostServiceException))), 
+                    expectedPostServiceException))),
                     Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

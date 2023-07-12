@@ -32,7 +32,8 @@ namespace Blog.Web.Services.Foundations.Posts
             });
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
-            TryCatch(async () => {
+            TryCatch(async () =>
+            {
 
                 ValidatePostId(postId);
 

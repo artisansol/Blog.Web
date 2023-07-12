@@ -37,10 +37,10 @@ namespace Blog.Web.Views.Bases
             InvokeAsync(StateHasChanged);
         }
 
-        public void Hide() 
-        { 
+        public void Hide()
+        {
             IsVisible = false;
-            InvokeAsync(StateHasChanged); 
+            InvokeAsync(StateHasChanged);
         }
         public void EnableButton()
         {
