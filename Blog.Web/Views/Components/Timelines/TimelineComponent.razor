@@ -1,17 +1,26 @@
 ﻿@using Blog.Web.Views.Bases
+@using PrettyBlazor
 @using Models.Views.Components.Timelines
 
-@if (State == TimelineComponentState.Content)
-{
-    <Virtualize Items=@PostViews Context=postView>
-        <CardBase Title=@postView.Author
-                  SubTitle=@postView.UpdatedDate.ToString("dd/MM/yyyy")>
-            <Content>
-                <p>
-                    @postView.Content
-                </p>
-            </Content>
-        </CardBase>
-    </Virtualize>
-}
+<div>
+    <Condition Evaluation=@(State == TimelineComponentState.Loading)>
+        <Match>
+            <LabelBase Value="Please wait..."></LabelBase>
+        </Match>
+    </Condition>
 
+    <Condition Evaluation=@(State == TimelineComponentState.Content)>
+        <Match>
+            <Virtualize Items=@PostViews Context=postView>
+                <CardBase Title=@postView.Author
+                          SubTitle=@postView.UpdatedDate.ToString("dd/MM/yyyy")>
+                    <Content>
+                        <p>
+                            @postView.Content
+                        </p>
+                    </Content>
+                </CardBase>
+            </Virtualize>
+        </Match>
+    </Condition>
+</div>

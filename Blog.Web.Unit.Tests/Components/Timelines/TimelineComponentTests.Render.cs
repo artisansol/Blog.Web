@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.Timelines;
@@ -34,7 +35,39 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         }
 
         [Fact]
-        public async void ShouldRenderPosts()
+        public void ShouldDisplayLoadingBeforeRenderingPosts()
+        {
+            // given
+            var expectedTimelineComponentState = TimelineComponentState.Loading;
+            string expectedLoadingText = "Loading...";
+            List<PostView> somePostViews = CreateRandomPostViews();
+            // when
+
+            this.postViewServiceMock.Setup(service =>
+                service.RetrieveAllPostViewsAsync())
+                    .ReturnsAsync(somePostViews, delay: TimeSpan.FromMilliseconds(500));
+
+            // then
+            this.renderedTimelineComponent = 
+                RenderComponent<TimelineComponent>();
+
+            this.renderedTimelineComponent.Instance.State
+                .Should().Be(expectedTimelineComponentState);
+
+            this.renderedTimelineComponent.Instance.Label.Value
+                .Should().Be(expectedLoadingText);
+
+            this.postViewServiceMock.Verify(service => 
+                service.RetrieveAllPostViewsAsync(),
+                    Times.Once());
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
+
+        }
+
+
+        [Fact]
+        public void ShouldRenderPosts()
         {
             // given
             TimelineComponentState expectedState =
