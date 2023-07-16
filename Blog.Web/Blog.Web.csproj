@@ -15,4 +15,10 @@
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="22.1.37" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\imgs\error.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -19,10 +19,13 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         public void ShouldRenderErrorIfExceptionOccurs()
         {
             // given
+            TimelineComponentState expectedState = 
+                TimelineComponentState.Error;
+
             string randomMessage = GetRandomString();
             string exceptionMessage = randomMessage;
             string expectedErrorMessage = exceptionMessage;
-            TimelineComponentState expectedState = TimelineComponentState.Error;
+            string expectedImageUrl = "/imgs/error.jpg";
 
             var exception = 
                 new Exception(message: exceptionMessage);
@@ -44,6 +47,9 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
 
             this.renderedTimelineComponent.Instance.Label.Value
                 .Should().Be(expectedErrorMessage);
+
+            this.renderedTimelineComponent.Instance.ErrorImage.Url
+                .Should().Be(expectedImageUrl);
 
             IReadOnlyList<IRenderedComponent<CardBase>> postComponents =
                 this.renderedTimelineComponent.FindComponents<CardBase>();

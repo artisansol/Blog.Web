@@ -5,7 +5,7 @@
 <div>
     <Condition Evaluation=@(State == TimelineComponentState.Loading)>
         <Match>
-            <SpinnerBase @ref=Spinner IsVisible=true Label="Loading..."/>
+            <SpinnerBase @ref=Spinner IsVisible=true Label="Loading..." />
         </Match>
     </Condition>
 
@@ -26,7 +26,8 @@
 
     <Condition Evaluation=@(State == TimelineComponentState.Error)>
         <Match>
-            <LabelBase @ref=Label Value=@ErrorMessage/>
+            <ImageBase @ref=ErrorImage Url="/imgs/error.jpg" Width="200px" />
+            <LabelBase @ref=Label Value=@ErrorMessage />
         </Match>
     </Condition>
 </div>
