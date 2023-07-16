@@ -1,5 +1,4 @@
-﻿using Blog.Web.Views.Bases;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Blog.Web.Views.Pages
 {

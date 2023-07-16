@@ -49,7 +49,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
                     .ReturnsAsync(somePostViews, delay: TimeSpan.FromMilliseconds(500));
 
             // then
-            this.renderedTimelineComponent = 
+            this.renderedTimelineComponent =
                 RenderComponent<TimelineComponent>();
 
             this.renderedTimelineComponent.Instance.State
@@ -61,7 +61,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             this.renderedTimelineComponent.Instance.Spinner.Label
                 .Should().BeEquivalentTo(expectedLoadingText);
 
-            this.postViewServiceMock.Verify(service => 
+            this.postViewServiceMock.Verify(service =>
                 service.RetrieveAllPostViewsAsync(),
                     Times.Once());
 
@@ -106,8 +106,8 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
 
             postComponents.ToList().ForEach(component =>
             {
-                bool componentContentExists = 
-                    expectedPostViews.Any(postView => 
+                bool componentContentExists =
+                    expectedPostViews.Any(postView =>
                         component.Markup.Contains(postView.Content)
                         && component.Markup.Contains(postView.UpdatedDate.ToString("dd/MM/yyyy"))
                         && component.Markup.Contains(postView.Author));
