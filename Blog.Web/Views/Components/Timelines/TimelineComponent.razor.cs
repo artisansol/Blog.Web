@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.Timelines;
@@ -22,11 +23,18 @@ namespace Blog.Web.Views.Components.Timelines
 
         protected async override Task OnInitializedAsync()
         {
-            this.PostViews =
-                await this.PostViewService.RetrieveAllPostViewsAsync();
+            try
+            {
+                this.PostViews =
+                    await this.PostViewService.RetrieveAllPostViewsAsync();
 
-            this.State = TimelineComponentState.Content;
+                this.State = TimelineComponentState.Content;
+            }
+            catch (Exception exception)
+            {
+                this.ErrorMessage = exception.Message;
+                this.State = TimelineComponentState.Error;
+            }
         }
-
     }
 }
