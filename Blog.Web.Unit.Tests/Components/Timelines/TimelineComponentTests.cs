@@ -28,6 +28,9 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         private static List<PostView> CreateRandomPostViews() =>
             CreatePostViewFiller().Create(count: GetRandomNumber()).ToList();
 
+        private static string GetRandomString() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
