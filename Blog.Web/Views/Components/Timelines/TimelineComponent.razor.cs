@@ -13,6 +13,8 @@ namespace Blog.Web.Views.Components.Timelines
         [Inject]
         public IPostViewService PostViewService { get; set; }
 
+        public SpinnerBase Spinner { get; set; }
+
         public TimelineComponentState State { get; set; }
         public List<PostView> PostViews { get; set; }
         public string ErrorMessage { get; set; }

@@ -32,6 +32,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             initialTimelineComponent.Label.Should().BeNull();
             initialTimelineComponent.ErrorMessage.Should().BeNull();
             initialTimelineComponent.State.Should().Be(expectedState);
+            initialTimelineComponent.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -54,8 +55,11 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             this.renderedTimelineComponent.Instance.State
                 .Should().Be(expectedTimelineComponentState);
 
-            this.renderedTimelineComponent.Instance.Label.Value
-                .Should().Be(expectedLoadingText);
+            this.renderedTimelineComponent.Instance.Spinner.IsVisible
+                .Should().BeTrue();
+
+            this.renderedTimelineComponent.Instance.Spinner.Label
+                .Should().BeEquivalentTo(expectedLoadingText);
 
             this.postViewServiceMock.Verify(service => 
                 service.RetrieveAllPostViewsAsync(),
