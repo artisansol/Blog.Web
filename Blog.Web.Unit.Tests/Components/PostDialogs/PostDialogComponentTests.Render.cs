@@ -24,7 +24,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 new PostDialog();
 
             // then
-            initialPostDialog.ComponentState.Should().Be(expectedState);
+            initialPostDialog.State.Should().Be(expectedState);
             initialPostDialog.PostViewService.Should().BeNull();
             initialPostDialog.Dialog.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
@@ -39,9 +39,10 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             // when
             this.postDialogRenderedComponent = RenderComponent<PostDialog>();
+            this.postDialogRenderedComponent.Instance.OpenDialog();
 
             // then
-            this.postDialogRenderedComponent.Instance.ComponentState
+            this.postDialogRenderedComponent.Instance.State
                 .Should().Be(expectedState);
 
             this.postDialogRenderedComponent.Instance.PostViewService
