@@ -51,7 +51,11 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.Dialog
                 .Should().NotBeNull();
 
-            this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible
+                .Should().BeTrue();
+
+            this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle
+                .Should().Be("Post");
 
             this.postDialogRenderedComponent.Instance.IsVisible
                 .Should().BeTrue();
