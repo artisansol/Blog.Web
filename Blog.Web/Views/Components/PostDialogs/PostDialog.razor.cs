@@ -1,4 +1,5 @@
-﻿using Blog.Web.Models.Views.Components.PostDialogs;
+﻿using System;
+using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Bases;
 using Microsoft.AspNetCore.Components;
@@ -12,5 +13,9 @@ namespace Blog.Web.Views.Components.PostDialogs
         public PostDialogComponentState ComponentState { get; set; }
         public DialogBase Dialog { get; set; }
         public bool IsVisible { get; set; }
+
+        public void OpenDialog() =>
+            throw new NotImplementedException();
+
     }
 }
