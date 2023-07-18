@@ -57,6 +57,9 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle
                 .Should().Be("Post");
 
+            this.postDialogRenderedComponent.Instance.Dialog.Title
+                .Should().Be("New Post");
+
             this.postDialogRenderedComponent.Instance.IsVisible
                 .Should().BeTrue();
         }
