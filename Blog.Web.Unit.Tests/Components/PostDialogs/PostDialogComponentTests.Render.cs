@@ -36,6 +36,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
         public void ShouldDisplayDialogIfOpenDialogIsClicked()
         {
             // given
+            string expectedTextAreaHeight = "250px";
             PostDialogComponentState expectedState = PostDialogComponentState.Content;
 
             // when
@@ -43,29 +44,15 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.OpenDialog();
 
             // then
-            this.postDialogRenderedComponent.Instance.State
-                .Should().Be(expectedState);
-
-            this.postDialogRenderedComponent.Instance.PostViewService
-                .Should().NotBeNull();
-
-            this.postDialogRenderedComponent.Instance.Dialog
-                .Should().NotBeNull();
-
-            this.postDialogRenderedComponent.Instance.TextArea
-                .Should().NotBeNull();
-
-            this.postDialogRenderedComponent.Instance.Dialog.IsVisible
-                .Should().BeTrue();
-
-            this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle
-                .Should().Be("Post");
-
-            this.postDialogRenderedComponent.Instance.Dialog.Title
-                .Should().Be("New Post");
-
-            this.postDialogRenderedComponent.Instance.IsVisible
-                .Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.State.Should().Be(expectedState);
+            this.postDialogRenderedComponent.Instance.PostViewService.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.Dialog.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle.Should().Be("Post");
+            this.postDialogRenderedComponent.Instance.Dialog.Title.Should().Be("New Post");
+            this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.TextArea.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedTextAreaHeight);
         }
     }
 }
