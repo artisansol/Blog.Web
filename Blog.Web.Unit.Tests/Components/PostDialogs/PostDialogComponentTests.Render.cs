@@ -26,6 +26,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             // then
             initialPostDialog.State.Should().Be(expectedState);
             initialPostDialog.PostViewService.Should().BeNull();
+            initialPostDialog.PostView.Should().BeNull();
             initialPostDialog.Dialog.Should().BeNull();
             initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
