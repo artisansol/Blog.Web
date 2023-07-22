@@ -27,6 +27,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             initialPostDialog.State.Should().Be(expectedState);
             initialPostDialog.PostViewService.Should().BeNull();
             initialPostDialog.Dialog.Should().BeNull();
+            initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
 
         }
@@ -49,6 +50,9 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 .Should().NotBeNull();
 
             this.postDialogRenderedComponent.Instance.Dialog
+                .Should().NotBeNull();
+
+            this.postDialogRenderedComponent.Instance.TextArea
                 .Should().NotBeNull();
 
             this.postDialogRenderedComponent.Instance.Dialog.IsVisible

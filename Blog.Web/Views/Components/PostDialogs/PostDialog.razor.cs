@@ -12,6 +12,7 @@ namespace Blog.Web.Views.Components.PostDialogs
         [Inject]
         public IPostViewService PostViewService { get; set; }
         public PostDialogComponentState State { get; set; }
+        public TextAreaBase TextArea { get; set; }
         public DialogBase Dialog { get; set; }
         public bool IsVisible { get; set; }
 
@@ -23,7 +24,5 @@ namespace Blog.Web.Views.Components.PostDialogs
             this.Dialog.Show();
             this.IsVisible = true;
         }
-            
-
     }
 }
