@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
@@ -13,11 +14,19 @@ namespace Blog.Web.Services.Views.PostViews
     {
         private readonly IPostService postService;
         private readonly ILoggingBroker loggingBroker;
-
-        public PostViewService(IPostService postService, ILoggingBroker loggingBroker)
+        private readonly IDateTimeBroker dateTimeBroker;
+        public PostViewService(IPostService postService, 
+            ILoggingBroker loggingBroker,
+            IDateTimeBroker dateTimeBroker)
         {
             this.postService = postService;
             this.loggingBroker = loggingBroker;
+            this.dateTimeBroker = dateTimeBroker;
+        }
+
+        public ValueTask<PostView> AddPostViewAsync(PostView postView)
+        {
+            throw new NotImplementedException();
         }
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>

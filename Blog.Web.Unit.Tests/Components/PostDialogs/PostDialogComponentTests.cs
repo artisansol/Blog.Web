@@ -9,6 +9,7 @@ using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Syncfusion.Blazor;
+using Tynamix.ObjectFiller;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
 {
@@ -25,5 +26,12 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.Services.AddOptions();
             this.JSInterop.Mode = JSRuntimeMode.Loose;
         }
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+
+        private static string GetRandomContent() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
     }
 }
