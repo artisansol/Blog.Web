@@ -63,8 +63,8 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 service.AddPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
-            this.loggingBrokerMock.VerifyNoOtherCalls();
             this.postServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
