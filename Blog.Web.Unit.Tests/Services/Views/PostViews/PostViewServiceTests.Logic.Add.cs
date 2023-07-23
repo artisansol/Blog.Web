@@ -17,19 +17,18 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         public async Task ShouldAddPostViewAsync()
         {
             // given
-            DateTimeOffset randomDateTime = GetRandomDate();
-            string randomAuthor = GetRandomName();
+            dynamic randomPostViewProperty = 
+                CreateRandomPostViewProperties();
 
-            dynamic randomPostViewProperty = CreateRandomPostViewProperties(
-                auditDates: randomDateTime,
-                auditAuthor: randomAuthor);
-
-            var randomPostView = new PostView
+            PostView randomPostView = new PostView
             {
+                Id = randomPostViewProperty.Id,
                 Title = randomPostViewProperty.Title,
                 SubTitle = randomPostViewProperty.SubTitle,
                 Author = randomPostViewProperty.Author,
-                Content = randomPostViewProperty.Content
+                Content = randomPostViewProperty.Content,
+                CreatedDate = randomPostViewProperty.CreatedDate,
+                UpdatedDate = randomPostViewProperty.UpdatedDate
             };
 
             PostView inputPostView = randomPostView;
@@ -37,18 +36,17 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
             var randomPost = new Post
             {
+                Id = randomPostViewProperty.Id,
                 Title = randomPostViewProperty.Title,
                 SubTitle = randomPostViewProperty.SubTitle,
                 Author = randomPostViewProperty.Author,
-                Content = randomPostViewProperty.Content
+                Content = randomPostViewProperty.Content,
+                CreatedDate = randomPostViewProperty.CreatedDate,
+                UpdatedDate = randomPostViewProperty.UpdatedDate
             };
 
             Post inputPost = randomPost;
             Post expectedPost = inputPost;
-
-            this.datetimeBrokerMock.Setup(broker => 
-                broker.GetDateTimeOffset())
-                    .Returns(randomDateTime);
 
             this.postServiceMock.Setup(service => 
                 service.AddPostAsync(inputPost))
@@ -61,15 +59,10 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // then
             actualPostView.Should().BeEquivalentTo(expectedPostView);
 
-            this.datetimeBrokerMock.Verify(broker => 
-                broker.GetDateTimeOffset(),
-                    Times.Once);
-            
             this.postServiceMock.Verify(service => 
                 service.AddPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.postServiceMock.VerifyNoOtherCalls();
         }

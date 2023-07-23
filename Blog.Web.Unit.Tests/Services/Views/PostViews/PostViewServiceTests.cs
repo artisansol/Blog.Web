@@ -18,18 +18,16 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
     {
         private readonly Mock<IPostService> postServiceMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
-        private readonly Mock<IDateTimeBroker> datetimeBrokerMock;
         private readonly IPostViewService postViewService;
 
         public PostViewServiceTests()
         {
             this.postServiceMock = new Mock<IPostService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
-            this.datetimeBrokerMock = new Mock<IDateTimeBroker>();
+
             this.postViewService = new PostViewService(
                 this.postServiceMock.Object,
-                this.loggingBrokerMock.Object,
-                this.datetimeBrokerMock.Object);
+                this.loggingBrokerMock.Object);
         }
 
         public static TheoryData DependencyExceptions()
@@ -114,7 +112,6 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 UpdatedDate = GetRandomDate()
             };
         }
-
         private static string GetRandomName() =>
             new RealNames().GetValue();
         private static int GetRandomNumber() =>

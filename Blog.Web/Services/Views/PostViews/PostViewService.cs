@@ -7,6 +7,7 @@ using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Services.Foundations.Posts;
+using Microsoft.Extensions.Hosting;
 
 namespace Blog.Web.Services.Views.PostViews
 {
@@ -14,19 +15,20 @@ namespace Blog.Web.Services.Views.PostViews
     {
         private readonly IPostService postService;
         private readonly ILoggingBroker loggingBroker;
-        private readonly IDateTimeBroker dateTimeBroker;
         public PostViewService(IPostService postService, 
-            ILoggingBroker loggingBroker,
-            IDateTimeBroker dateTimeBroker)
+            ILoggingBroker loggingBroker)
         {
             this.postService = postService;
             this.loggingBroker = loggingBroker;
-            this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<PostView> AddPostViewAsync(PostView postView)
+        public async ValueTask<PostView> AddPostViewAsync(PostView postView)
         {
-            throw new NotImplementedException();
+            Post post = MapToPost(postView);
+
+            Post returnedPost = await this.postService.AddPostAsync(post);
+
+            return postView;
         }
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
@@ -62,6 +64,20 @@ namespace Blog.Web.Services.Views.PostViews
                 Content = post.Content,
                 CreatedDate = post.CreatedDate,
                 UpdatedDate = post.UpdatedDate
+            };
+        }
+
+        private static Post MapToPost(PostView postView)
+        {
+            return new Post
+            {
+                Id = postView.Id,
+                Title = postView.Title,
+                SubTitle = postView.SubTitle,
+                Author = postView.Author,
+                Content = postView.Content,
+                CreatedDate = postView.CreatedDate,
+                UpdatedDate = postView.UpdatedDate
             };
         }
     }

@@ -17,11 +17,11 @@ namespace Blog.Web.Services.Foundations.Posts
             this.apiBroker = apiBroker;
             this.loggingBroker = loggingBroker;
         }
+
         public ValueTask<Post> AddPostAsync(Post post) =>
             TryCatch(async () =>
             {
                 ValidatePostOnAdd(post);
-
                 return await this.apiBroker.PostPostAsync(post);
             });
 
@@ -34,9 +34,7 @@ namespace Blog.Web.Services.Foundations.Posts
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
             TryCatch(async () =>
             {
-
                 ValidatePostId(postId);
-
                 return await this.apiBroker.DeletePostByIdAsync(postId);
             });
     }
