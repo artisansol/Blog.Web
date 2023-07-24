@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 
@@ -9,6 +10,12 @@ namespace Blog.Web.Services.Foundations.Posts
         private static void ValidatePostOnAdd(Post post)
         {
             ValidatePost(post);
+
+            Validate((Rule: IsInvalid(post.Content),Parameter:nameof(post.Content)),
+                (Rule: IsInvalid(post.Title), Parameter: nameof(post.Title)),
+                (Rule: IsInvalid(post.SubTitle), Parameter: nameof(post.SubTitle)),
+                (Rule: IsInvalid(post.Author), Parameter: nameof(post.Author))
+                );
         }
 
         private static void ValidatePostId(Guid postId) =>
@@ -18,6 +25,12 @@ namespace Blog.Web.Services.Foundations.Posts
         {
             Condition = id == Guid.Empty,
             Message = "Id is required."
+        };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required."
         };
 
         private static void ValidatePost(Post post)

@@ -89,7 +89,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             this.apiBrokerMock.Verify(broker => 
                 broker.PostPostAsync(It.IsAny<Post>()), 
-                Times.Once);
+                Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
