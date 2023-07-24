@@ -11,10 +11,14 @@ namespace Blog.Web.Services.Foundations.Posts
         {
             ValidatePost(post);
 
-            Validate((Rule: IsInvalid(post.Content),Parameter:nameof(post.Content)),
+            Validate(
+                (Rule: IsInvalid(post.Id), Parameter: nameof(post.Id)),
+                (Rule: IsInvalid(post.Content),Parameter:nameof(post.Content)),
                 (Rule: IsInvalid(post.Title), Parameter: nameof(post.Title)),
                 (Rule: IsInvalid(post.SubTitle), Parameter: nameof(post.SubTitle)),
-                (Rule: IsInvalid(post.Author), Parameter: nameof(post.Author))
+                (Rule: IsInvalid(post.Author), Parameter: nameof(post.Author)),
+                (Rule: IsInvalid(post.CreatedDate), Parameter: nameof(post.CreatedDate)),
+                (Rule: IsInvalid(post.UpdatedDate), Parameter: nameof(post.UpdatedDate))
                 );
         }
 
@@ -31,6 +35,12 @@ namespace Blog.Web.Services.Foundations.Posts
         {
             Condition = String.IsNullOrWhiteSpace(text),
             Message = "Text is required."
+        };
+
+        private static dynamic IsInvalid(DateTimeOffset date) => new
+        {
+            Condition = date == default,
+            Message = "Date is required."
         };
 
         private static void ValidatePost(Post post)

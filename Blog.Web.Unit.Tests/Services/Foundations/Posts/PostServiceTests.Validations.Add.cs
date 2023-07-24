@@ -59,6 +59,9 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             var invalidPostException = new InvalidPostException();
 
+            invalidPostException.AddData(key: nameof(Post.Id),
+                values: "Id is required.");
+
             invalidPostException.AddData(key: nameof(Post.Content),
                 values: "Text is required.");
 
@@ -70,6 +73,12 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             invalidPostException.AddData(key: nameof(Post.Author),
                 values: "Text is required.");
+
+            invalidPostException.AddData(key: nameof(Post.CreatedDate),
+                values: "Date is required.");
+
+            invalidPostException.AddData(key: nameof(Post.UpdatedDate),
+                values: "Date is required.");
 
             var expectedPostValidationException = 
                 new PostValidationException(invalidPostException);
