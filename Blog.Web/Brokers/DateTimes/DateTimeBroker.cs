@@ -4,7 +4,7 @@ namespace Blog.Web.Brokers.DateTimes
 {
     public class DateTimeBroker : IDateTimeBroker
     {
-        public DateTimeOffset GetDateTimeOffset() =>
+        public DateTimeOffset GetCurrentDateTimeOffset() =>
             DateTimeOffset.UtcNow;
     }
 }

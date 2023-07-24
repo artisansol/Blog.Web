@@ -4,6 +4,6 @@ namespace Blog.Web.Brokers.DateTimes
 {
     public interface IDateTimeBroker
     {
-        DateTimeOffset GetDateTimeOffset();
+        DateTimeOffset GetCurrentDateTimeOffset();
     }
 }

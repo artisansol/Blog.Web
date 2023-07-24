@@ -15,11 +15,15 @@ namespace Blog.Web.Services.Views.PostViews
     {
         private readonly IPostService postService;
         private readonly ILoggingBroker loggingBroker;
+        private readonly IDateTimeBroker dateTimeBroker;
+
         public PostViewService(IPostService postService, 
-            ILoggingBroker loggingBroker)
+            ILoggingBroker loggingBroker,
+            IDateTimeBroker dateTimeBroker)
         {
             this.postService = postService;
             this.loggingBroker = loggingBroker;
+            this.dateTimeBroker = dateTimeBroker;
         }
 
         public async ValueTask<PostView> AddPostViewAsync(PostView postView)
@@ -67,17 +71,19 @@ namespace Blog.Web.Services.Views.PostViews
             };
         }
 
-        private static Post MapToPost(PostView postView)
+        private Post MapToPost(PostView postView)
         {
+            DateTimeOffset currentDateTime = this.dateTimeBroker.GetCurrentDateTimeOffset();
+
             return new Post
             {
-                Id = postView.Id,
+                Id = Guid.NewGuid(),
                 Title = postView.Title,
                 SubTitle = postView.SubTitle,
                 Author = postView.Author,
                 Content = postView.Content,
-                CreatedDate = postView.CreatedDate,
-                UpdatedDate = postView.UpdatedDate
+                CreatedDate = currentDateTime,
+                UpdatedDate = currentDateTime
             };
         }
     }

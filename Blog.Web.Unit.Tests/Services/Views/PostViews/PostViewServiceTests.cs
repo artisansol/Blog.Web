@@ -18,16 +18,19 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
     {
         private readonly Mock<IPostService> postServiceMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
+        private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly IPostViewService postViewService;
 
         public PostViewServiceTests()
         {
             this.postServiceMock = new Mock<IPostService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
+            this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
 
             this.postViewService = new PostViewService(
-                this.postServiceMock.Object,
-                this.loggingBrokerMock.Object);
+                postService: this.postServiceMock.Object,
+                loggingBroker: this.loggingBrokerMock.Object,
+                dateTimeBroker: this.dateTimeBrokerMock.Object);
         }
 
         public static TheoryData DependencyExceptions()
