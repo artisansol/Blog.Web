@@ -7,7 +7,6 @@ using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Services.Foundations.Posts;
-using Microsoft.Extensions.Hosting;
 
 namespace Blog.Web.Services.Views.PostViews
 {
@@ -17,7 +16,7 @@ namespace Blog.Web.Services.Views.PostViews
         private readonly ILoggingBroker loggingBroker;
         private readonly IDateTimeBroker dateTimeBroker;
 
-        public PostViewService(IPostService postService, 
+        public PostViewService(IPostService postService,
             ILoggingBroker loggingBroker,
             IDateTimeBroker dateTimeBroker)
         {

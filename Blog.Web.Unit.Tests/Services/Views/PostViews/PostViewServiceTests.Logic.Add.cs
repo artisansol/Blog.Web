@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
@@ -20,7 +17,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             DateTimeOffset randomDateTime = GetRandomDate();
             string randomAuthor = GetRandomName();
 
-            dynamic randomPostViewProperty = 
+            dynamic randomPostViewProperty =
                 CreateRandomPostViewProperties(
                     auditDates: randomDateTime,
                     auditAuthor: randomAuthor
@@ -51,26 +48,26 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             Post inputPost = randomPost;
             Post expectedPost = inputPost;
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Returns(randomDateTime);
 
-            this.postServiceMock.Setup(service => 
+            this.postServiceMock.Setup(service =>
                 service.AddPostAsync(inputPost))
                     .ReturnsAsync(expectedPost);
 
             // when
-            PostView actualPostView = 
+            PostView actualPostView =
                 await this.postViewService.AddPostViewAsync(inputPostView);
 
             // then
             actualPostView.Should().BeEquivalentTo(expectedPostView);
 
-            this.dateTimeBrokerMock.Verify(broker => 
-                broker.GetCurrentDateTimeOffset(), 
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
                     Times.Once);
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.AddPostAsync(It.IsAny<Post>()),
                     Times.Once);
 

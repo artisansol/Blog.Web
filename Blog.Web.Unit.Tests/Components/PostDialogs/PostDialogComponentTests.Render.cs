@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blog.Web.Models.Views.Components.PostDialogs;
+﻿using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Views.Components.PostDialogs;
 using FluentAssertions;
 using Xunit;
@@ -16,11 +11,11 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
         public void ShouldInitializeComponent()
         {
             // given
-            PostDialogComponentState expectedState = 
+            PostDialogComponentState expectedState =
                 PostDialogComponentState.Loading;
-            
+
             // when
-            var initialPostDialog = 
+            var initialPostDialog =
                 new PostDialog();
 
             // then

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 
@@ -13,7 +12,7 @@ namespace Blog.Web.Services.Foundations.Posts
 
             Validate(
                 (Rule: IsInvalid(post.Id), Parameter: nameof(post.Id)),
-                (Rule: IsInvalid(post.Content),Parameter:nameof(post.Content)),
+                (Rule: IsInvalid(post.Content), Parameter: nameof(post.Content)),
                 (Rule: IsInvalid(post.Title), Parameter: nameof(post.Title)),
                 (Rule: IsInvalid(post.SubTitle), Parameter: nameof(post.SubTitle)),
                 (Rule: IsInvalid(post.Author), Parameter: nameof(post.Author)),

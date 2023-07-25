@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Blog.Web.Models.PostViews;
+﻿using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Bases;
@@ -21,7 +19,7 @@ namespace Blog.Web.Views.Components.PostDialogs
         protected override void OnInitialized() =>
             this.State = PostDialogComponentState.Content;
 
-        public void OpenDialog() 
+        public void OpenDialog()
         {
             this.Dialog.Show();
             this.IsVisible = true;

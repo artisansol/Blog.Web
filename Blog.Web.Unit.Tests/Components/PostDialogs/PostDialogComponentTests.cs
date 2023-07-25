@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blog.Web.Services.Views.PostViews;
+﻿using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Components.PostDialogs;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;

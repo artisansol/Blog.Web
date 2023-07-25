@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Blog.Web.Views.Bases
@@ -42,8 +41,8 @@ namespace Blog.Web.Views.Bases
             InvokeAsync(StateHasChanged);
         }
 
-        public Task SetValueAsync(string value) => 
-            InvokeAsync(async () => 
+        public Task SetValueAsync(string value) =>
+            InvokeAsync(async () =>
                 {
                     this.Value = value;
                     await this.ValueChanged.InvokeAsync(this.Value);

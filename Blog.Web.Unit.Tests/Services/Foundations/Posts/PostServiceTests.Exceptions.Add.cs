@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
@@ -22,31 +19,31 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             // given
             var somePost = CreateRandomPost();
 
-            var failedPostDependencyException = 
+            var failedPostDependencyException =
                 new FailedPostDependencyException(criticalDependencyException);
 
-            var expectedPostDependencyException = 
+            var expectedPostDependencyException =
                 new PostDependencyException(failedPostDependencyException);
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.PostPostAsync(somePost))
                     .ThrowsAsync(criticalDependencyException);
 
             // when
-            ValueTask<Post> addPostTask = 
+            ValueTask<Post> addPostTask =
                 this.postService.AddPostAsync(somePost);
 
             // then
-            await Assert.ThrowsAsync<PostDependencyException>(() => 
+            await Assert.ThrowsAsync<PostDependencyException>(() =>
                 addPostTask.AsTask());
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.PostPostAsync(It.IsAny<Post>()), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
-                    expectedPostDependencyException))), 
+                    expectedPostDependencyException))),
                     Times.Once());
 
             this.apiBrokerMock.VerifyNoOtherCalls();
@@ -63,22 +60,22 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             IDictionary randomDictionary = CreateRandomDictionary();
             IDictionary exceptionData = randomDictionary;
-            
+
             var httpResponseBadRequestException = new HttpResponseBadRequestException(
                 responseMessage: someReponseMessage,
                 message: someMessage);
 
             httpResponseBadRequestException.AddData(exceptionData);
 
-            var invalidPostException = 
+            var invalidPostException =
                 new InvalidPostException(
-                    httpResponseBadRequestException, 
+                    httpResponseBadRequestException,
                     exceptionData);
 
-            var expectedPostDependencyValidationException = 
+            var expectedPostDependencyValidationException =
                 new PostDependencyValidationException(invalidPostException);
 
-            this.apiBrokerMock.Setup(broker => 
+            this.apiBrokerMock.Setup(broker =>
                 broker.PostPostAsync(somePost))
                     .ThrowsAsync(httpResponseBadRequestException);
 
@@ -86,16 +83,16 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             ValueTask<Post> addPostTask = this.postService.AddPostAsync(somePost);
 
             // then
-            await Assert.ThrowsAsync<PostDependencyValidationException>(() => 
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
                 addPostTask.AsTask());
 
-            this.apiBrokerMock.Verify(broker => 
-                broker.PostPostAsync(somePost), 
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(somePost),
                     Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostDependencyValidationException))), 
+                    expectedPostDependencyValidationException))),
                     Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

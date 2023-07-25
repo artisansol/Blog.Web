@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Blog.Web.Models.Views.Components.Timelines;
 using Blog.Web.Views.Bases;
 using Blog.Web.Views.Components.Timelines;
@@ -19,7 +16,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
         public void ShouldRenderErrorIfExceptionOccurs()
         {
             // given
-            TimelineComponentState expectedState = 
+            TimelineComponentState expectedState =
                 TimelineComponentState.Error;
 
             string randomMessage = GetRandomString();
@@ -27,15 +24,15 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             string expectedErrorMessage = exceptionMessage;
             string expectedImageUrl = "/imgs/error.jpg";
 
-            var exception = 
+            var exception =
                 new Exception(message: exceptionMessage);
 
-            this.postViewServiceMock.Setup(service => 
+            this.postViewServiceMock.Setup(service =>
                 service.RetrieveAllPostViewsAsync())
                     .ThrowsAsync(exception);
 
             // when
-            this.renderedTimelineComponent = 
+            this.renderedTimelineComponent =
                 RenderComponent<TimelineComponent>();
 
             // then
@@ -59,7 +56,7 @@ namespace Blog.Web.Unit.Tests.Components.Timelines
             this.renderedTimelineComponent.Instance.Spinner
                 .Should().BeNull();
 
-            this.postViewServiceMock.Verify(service => 
+            this.postViewServiceMock.Verify(service =>
                 service.RetrieveAllPostViewsAsync(),
                 Times.Once());
 
