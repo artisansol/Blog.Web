@@ -65,6 +65,15 @@ namespace Blog.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(invalidPostException);
             }
+            catch (HttpResponseConflictException httpResponseConflictException)
+            {
+                var invalidPostException =
+                    new InvalidPostException(
+                        httpResponseConflictException,
+                        httpResponseConflictException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidPostException);
+            }
             catch (HttpResponseLockedException httpResponseLockedException)
             {
                 var lockedPostException =
