@@ -151,5 +151,50 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowPostDependencyExceptionOnAddIfResponseExceptionOccursAndLogItAsync()
+        {
+            // given
+            Post somePost = CreateRandomPost();
+            string someMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseException =
+                new HttpResponseException(
+                    httpResponseMessage,
+                    someMessage);
+
+            var failedPostDependencyException =
+                new FailedPostDependencyException(httpResponseException);
+
+            var expectedPostDependencyException =
+                new PostDependencyException(failedPostDependencyException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()))
+                    .ThrowsAsync(httpResponseException);
+
+
+            // when
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyException>(() =>
+                addPostTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
