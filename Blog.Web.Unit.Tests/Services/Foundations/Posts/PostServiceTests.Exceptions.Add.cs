@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 using Moq;
+using RESTFulSense.Exceptions;
 using Xunit;
 
 namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
@@ -45,6 +48,55 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
                 broker.LogCritical(It.Is(SameExceptionAs(
                     expectedPostDependencyException))), 
                     Times.Once());
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfBadRequestExceptionErrorOccursAndLogItAsync()
+        {
+            // given
+            Post somePost = CreateRandomPost();
+            string someMessage = GetRandomMessage();
+            var someReponseMessage = new HttpResponseMessage();
+
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
+            
+            var httpResponseBadRequestException = new HttpResponseBadRequestException(
+                responseMessage: someReponseMessage,
+                message: someMessage);
+
+            httpResponseBadRequestException.AddData(exceptionData);
+
+            var invalidPostException = 
+                new InvalidPostException(
+                    httpResponseBadRequestException, 
+                    exceptionData);
+
+            var expectedPostDependencyValidationException = 
+                new PostDependencyValidationException(invalidPostException);
+
+            this.apiBrokerMock.Setup(broker => 
+                broker.PostPostAsync(somePost))
+                    .ThrowsAsync(httpResponseBadRequestException);
+
+            // when
+            ValueTask<Post> addPostTask = this.postService.AddPostAsync(somePost);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() => 
+                addPostTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker => 
+                broker.PostPostAsync(somePost), 
+                    Times.Once());
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyValidationException))), 
+                    Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
