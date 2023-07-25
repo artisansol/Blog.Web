@@ -27,7 +27,7 @@ namespace Blog.Web.Unit.Tests.Services.Foundations.Posts
 
             this.apiBrokerMock.Setup(broker => 
                 broker.PostPostAsync(somePost))
-                    .ThrowsAsync(failedPostDependencyException);
+                    .ThrowsAsync(criticalDependencyException);
 
             // when
             ValueTask<Post> addPostTask = 
