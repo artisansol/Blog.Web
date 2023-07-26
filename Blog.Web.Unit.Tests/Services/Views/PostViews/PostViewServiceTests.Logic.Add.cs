@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 using FluentAssertions;
+using Force.DeepCloner;
 using Moq;
 using Xunit;
 
@@ -29,6 +30,8 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 SubTitle = randomPostViewProperty.SubTitle,
                 Author = randomPostViewProperty.Author,
                 Content = randomPostViewProperty.Content,
+                CreatedDate = randomPostViewProperty.CreatedDate,
+                UpdatedDate = randomPostViewProperty.UpdatedDate
             };
 
             PostView inputPostView = randomPostView;
@@ -41,8 +44,8 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 SubTitle = randomPostViewProperty.SubTitle,
                 Author = randomPostViewProperty.Author,
                 Content = randomPostViewProperty.Content,
-                CreatedDate = randomDateTime,
-                UpdatedDate = randomDateTime
+                CreatedDate = randomPostViewProperty.CreatedDate,
+                UpdatedDate = randomPostViewProperty.UpdatedDate
             };
 
             Post inputPost = randomPost;
@@ -53,7 +56,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                     .Returns(randomDateTime);
 
             this.postServiceMock.Setup(service =>
-                service.AddPostAsync(inputPost))
+                service.AddPostAsync(It.Is(SamePostAs(inputPost))))
                     .ReturnsAsync(expectedPost);
 
             // when

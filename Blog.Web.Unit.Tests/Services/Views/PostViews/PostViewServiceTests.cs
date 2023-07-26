@@ -4,9 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
+using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
 using Blog.Web.Services.Foundations.Posts;
 using Blog.Web.Services.Views.PostViews;
+using KellermanSoftware.CompareNetObjects;
 using Moq;
 using Tynamix.ObjectFiller;
 using Xeptions;
@@ -19,6 +21,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         private readonly Mock<IPostService> postServiceMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
+        private readonly ICompareLogic compareLogic;
         private readonly IPostViewService postViewService;
 
         public PostViewServiceTests()
@@ -26,6 +29,10 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.postServiceMock = new Mock<IPostService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
+
+            var compareConfig = new ComparisonConfig();
+            compareConfig.IgnoreProperty<Post>(post => post.Id);
+            this.compareLogic = new CompareLogic(compareConfig);
 
             this.postViewService = new PostViewService(
                 postService: this.postServiceMock.Object,
@@ -125,5 +132,9 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
             actualException => actualException.SameExceptionAs(expectedException);
+        private Expression<Func<Post, bool>> SamePostAs(Post expectedPost)
+        {
+            return actualPost => this.compareLogic.Compare(actualPost, expectedPost).AreEqual;
+        }
     }
 }
