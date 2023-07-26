@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 using FluentAssertions;
-using Force.DeepCloner;
 using Moq;
 using Xunit;
 

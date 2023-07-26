@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 
 namespace Blog.Web.Services.Views.PostViews
