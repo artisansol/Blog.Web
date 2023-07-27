@@ -25,14 +25,17 @@ namespace Blog.Web.Services.Views.PostViews
             this.dateTimeBroker = dateTimeBroker;
         }
 
-        public async ValueTask<PostView> AddPostViewAsync(PostView postView)
-        {
-            Post post = MapToPost(postView);
+        public ValueTask<PostView> AddPostViewAsync(PostView postView) =>
+            TryCatch(async () => 
+            {
+                ValidatePostViewOnAdd(postView);
+                Post post = MapToPost(postView);
 
-            Post returnedPost = await this.postService.AddPostAsync(post);
+                Post returnedPost = 
+                    await this.postService.AddPostAsync(post);
 
-            return postView;
-        }
+                return postView;
+            });
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
             TryCatch(async () =>

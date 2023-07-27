@@ -19,6 +19,10 @@ namespace Blog.Web.Services.Views.PostViews
             {
                 return await returningPostViewFunction();
             }
+            catch (NullPostViewException nullPostViewException)
+            {
+                throw CreateAndLogValidationException(nullPostViewException);
+            }
             catch (InvalidPostViewException invalidPostViewException)
             {
                 throw CreateAndLogValidationException(invalidPostViewException);

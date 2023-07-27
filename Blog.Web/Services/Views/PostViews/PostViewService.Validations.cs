@@ -6,6 +6,20 @@ namespace Blog.Web.Services.Views.PostViews
 {
     public partial class PostViewService
     {
+        private static void ValidatePostViewOnAdd(PostView postView)
+        {
+            ValidatePostViewIsNotNull(postView);
+
+        }
+
+        private static void ValidatePostViewIsNotNull(PostView postView)
+        {
+            if (postView is null)
+            {
+                throw new NullPostViewException();
+            }
+        }
+
         private static void ValidatePostViewId(Guid postViewId) =>
             Validate((Rule: IsInvalid(postViewId), Parameter: nameof(PostView.Id)));
 
