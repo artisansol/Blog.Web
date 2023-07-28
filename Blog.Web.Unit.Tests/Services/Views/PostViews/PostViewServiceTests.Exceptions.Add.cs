@@ -28,7 +28,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
             this.dateTimeBrokerMock.Setup(broker => 
                 broker.GetCurrentDateTimeOffset())
-                    .Throws(expectedPostViewDependencyValidationException);
+                    .Throws(dependencyValidationException);
 
             // when
             ValueTask<PostView> addPostViewTask = 
