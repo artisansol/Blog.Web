@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
 
@@ -9,7 +10,12 @@ namespace Blog.Web.Services.Views.PostViews
         private static void ValidatePostViewOnAdd(PostView postView)
         {
             ValidatePostViewIsNotNull(postView);
-
+            
+            Validate(
+                (Rule: IsInvalid(postView.Title), Parameter: nameof(postView.Title)),
+                (Rule: IsInvalid(postView.SubTitle), Parameter: nameof(postView.SubTitle)),
+                (Rule: IsInvalid(postView.Content), Parameter: nameof(postView.Content))
+                );
         }
 
         private static void ValidatePostViewIsNotNull(PostView postView)
@@ -28,6 +34,13 @@ namespace Blog.Web.Services.Views.PostViews
             Condition = id == Guid.Empty,
             Message = "Id is required."
         };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = string.IsNullOrWhiteSpace(text),
+            Message = "Text is required."
+        };
+
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
             var invalidPostViewException = new InvalidPostViewException();

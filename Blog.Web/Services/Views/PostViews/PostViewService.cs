@@ -29,7 +29,9 @@ namespace Blog.Web.Services.Views.PostViews
             TryCatch(async () => 
             {
                 ValidatePostViewOnAdd(postView);
-                Post post = MapToPost(postView);
+
+                Post post = 
+                    MapToPost(postView);
 
                 Post returnedPost = 
                     await this.postService.AddPostAsync(post);
