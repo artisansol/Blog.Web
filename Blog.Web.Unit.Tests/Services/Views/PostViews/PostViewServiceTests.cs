@@ -6,6 +6,7 @@ using Blog.Web.Brokers.DateTimes;
 using Blog.Web.Brokers.Loggings;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.Posts.Exceptions;
+using Blog.Web.Models.PostViews;
 using Blog.Web.Services.Foundations.Posts;
 using Blog.Web.Services.Views.PostViews;
 using KellermanSoftware.CompareNetObjects;
@@ -23,7 +24,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly ICompareLogic compareLogic;
         private readonly IPostViewService postViewService;
-
+        
         public PostViewServiceTests()
         {
             this.postServiceMock = new Mock<IPostService>();
@@ -74,6 +75,23 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             };
         }
 
+        public static TheoryData DependencyValidationExceptions()
+        {
+            var innerException = new Xeption();
+
+            var postServiceValidationException = 
+                new PostValidationException(innerException);
+
+            var postDependencyValidation = 
+                new PostDependencyValidationException(innerException);
+
+            return new TheoryData<Xeption>
+            {
+                postServiceValidationException,
+                postDependencyValidation
+            };
+        }
+
         private static List<dynamic> CreateRandomPostViewPropertiesCollection()
         {
             int randomCount = GetRandomNumber();
@@ -109,6 +127,19 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             };
         }
 
+        private static PostView CreateRandomPostView() =>
+            CreateRandomPostViewFiller().Create();
+
+        private static Filler<PostView> CreateRandomPostViewFiller()
+        {
+            var filler = new Filler<PostView>();
+
+            filler.Setup()
+                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow);
+
+            return filler;
+        }
+
         private static dynamic CreateRandomPostViewProperties()
         {
             return new
@@ -132,9 +163,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
             actualException => actualException.SameExceptionAs(expectedException);
-        private Expression<Func<Post, bool>> SamePostAs(Post expectedPost)
-        {
-            return actualPost => this.compareLogic.Compare(actualPost, expectedPost).AreEqual;
-        }
+        private Expression<Func<Post, bool>> SamePostAs(Post expectedPost) =>
+            actualPost => this.compareLogic.Compare(actualPost, expectedPost).AreEqual;
     }
 }
