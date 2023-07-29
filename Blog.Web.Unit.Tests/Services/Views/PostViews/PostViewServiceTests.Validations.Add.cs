@@ -54,11 +54,21 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             var invalidPostView = new PostView
             {
+                Title = invalidText,
+                SubTitle = invalidText,
                 Content = invalidText
             };
 
             var invalidPostViewException = 
                 new InvalidPostViewException();
+
+            invalidPostViewException.AddData(
+                key: nameof(PostView.Title),
+                values: "Text is required.");
+
+            invalidPostViewException.AddData(
+                key: nameof(PostView.SubTitle),
+                values: "Text is required.");
 
             invalidPostViewException.AddData(
                 key: nameof(PostView.Content), 
