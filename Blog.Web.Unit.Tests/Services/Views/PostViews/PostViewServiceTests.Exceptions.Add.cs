@@ -16,7 +16,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
     {
         [Theory]
         [MemberData(nameof(DependencyValidationExceptions))]
-        public async void ShouldThrowDependencyValidationExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
             Xeption dependencyValidationException)
         {
             // given
@@ -58,7 +58,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
-        public async void ShouldThrowDependencyExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
+        public async Task ShouldThrowDependencyExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
             Xeption dependencyExceptions)
         {
             // given
@@ -99,5 +99,47 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
 
         }
 
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            var somePostView = CreateRandomPostView();
+            var serviceException = new Exception();
+
+            var failedPostViewServiceException = 
+                new FailedPostViewServiceException(serviceException as Xeption);
+
+            var expectedPostViewServiceException = 
+                new PostViewServiceException(failedPostViewServiceException);
+
+            this.dateTimeBrokerMock.Setup(broker => 
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(serviceException);
+
+            // when
+            ValueTask<PostView> addPostViewTask = 
+                this.postViewService.AddPostViewAsync(somePostView);
+
+            // then
+            await Assert.ThrowsAsync<PostViewServiceException>(() => 
+                addPostViewTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker => 
+                broker.GetCurrentDateTimeOffset(), 
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostViewServiceException))),
+                    Times.Once);
+
+            this.postServiceMock.Verify(service => 
+                service.AddPostAsync(It.IsAny<Post>()), 
+                Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.postServiceMock.VerifyNoOtherCalls();
+        }
     }
 }
