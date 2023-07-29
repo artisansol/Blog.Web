@@ -1,4 +1,5 @@
-﻿using Blog.Web.Models.PostViews;
+﻿using System.Threading.Tasks;
+using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Views.Components.PostDialogs;
 using FluentAssertions;
@@ -30,12 +31,16 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
         }
 
-        [Fact]
+        [Fact] 
         public void ShouldDisplayDialogIfOpenDialogIsClicked()
         {
             // given
             string expectedTextAreaHeight = "250px";
-            PostDialogComponentState expectedState = PostDialogComponentState.Content;
+
+            PostDialogComponentState expectedState = 
+                PostDialogComponentState.Content;
+
+            var expectedPostView = new PostView();
 
             // when
             this.postDialogRenderedComponent = RenderComponent<PostDialog>();
@@ -46,7 +51,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             this.postDialogRenderedComponent.Instance.PostViewService.Should().NotBeNull();
 
-            this.postDialogRenderedComponent.Instance.PostView.Should().BeNull();
+            this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
 
             this.postDialogRenderedComponent.Instance.Dialog.Should().NotBeNull();
 
@@ -54,7 +59,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle.Should().Be("Post");
 
-            this.postDialogRenderedComponent.Instance.Dialog.Title.Should().Be("New Post");
+            this.postDialogRenderedComponent.Instance.Dialog.Title.Should().Be("NEW POST");
 
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
 
@@ -64,7 +69,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
         }
 
         [Fact]
-        public void ShouldSubmitPostView()
+        public async Task ShouldSubmitPostViewAsync()
         {
             // given
             string randomContent = GetRandomContent();
@@ -73,9 +78,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             var expectedPostView = new PostView
             {
-                Title = inputContent,
                 Content = inputContent,
-                SubTitle = inputContent
             };
 
             // when
@@ -83,7 +86,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 RenderComponent<PostDialog>();
 
             this.postDialogRenderedComponent.Instance.OpenDialog();
-            this.postDialogRenderedComponent.Instance.TextArea.SetValueAsync(inputContent);
+            await this.postDialogRenderedComponent.Instance.TextArea.SetValueAsync(inputContent);
             this.postDialogRenderedComponent.Instance.Dialog.Click();
 
             // then

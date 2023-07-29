@@ -1,4 +1,5 @@
-﻿using Blog.Web.Models.PostViews;
+﻿using System.Threading.Tasks;
+using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Bases;
@@ -16,13 +17,28 @@ namespace Blog.Web.Views.Components.PostDialogs
         public bool IsVisible { get; set; }
         public PostView PostView { get; set; }
 
-        protected override void OnInitialized() =>
+        protected override void OnInitialized()
+        {
             this.State = PostDialogComponentState.Content;
-
+            this.PostView = new PostView(); 
+        }
+            
         public void OpenDialog()
         {
             this.Dialog.Show();
             this.IsVisible = true;
+        }
+
+        public void CloseDialog()
+        {
+            this.Dialog.Hide();
+            this.IsVisible = false;
+        }
+
+        public async ValueTask PostViewAsync()
+        {
+            await this.PostViewService.AddPostViewAsync(this.PostView);
+            CloseDialog();
         }
     }
 }

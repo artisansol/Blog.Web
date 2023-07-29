@@ -1,6 +1,24 @@
 ﻿@using Blog.Web.Views.Bases
-<DialogBase @ref=Dialog ButtonTitle="Post" Title="New Post">
-    <Content>
-        <TextAreaBase @ref=TextArea Height="250px"></TextAreaBase>
-    </Content>
-</DialogBase>
+@using PrettyBlazor
+
+@*<div>
+    <Condition Evaluation=@(State == TimelineComponentState.Loading)>
+        <Match>
+            <SpinnerBase @ref=Spinner IsVisible=true Label="Loading..." />
+        </Match>
+    </Condition>
+    <Condition Evaluation=@(State == TimelineComponentState.Content)>
+        <Match>*@
+    <DialogBase @ref=Dialog
+                ButtonTitle="Post"
+                Title="NEW POST"
+                OnClick=@(async () => await PostViewAsync())>
+        <Content>
+            <TextAreaBase @ref=TextArea
+                          Height="250px"
+                          @bind-Value=@PostView.Content />
+        </Content>
+    </DialogBase>
+@*    </Match>
+    </Condition>
+</div>*@

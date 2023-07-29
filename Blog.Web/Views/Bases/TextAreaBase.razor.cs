@@ -46,7 +46,6 @@ namespace Blog.Web.Views.Bases
                 {
                     this.Value = value;
                     await this.ValueChanged.InvokeAsync(this.Value);
-                });
-
+                }); 
     }
 }
