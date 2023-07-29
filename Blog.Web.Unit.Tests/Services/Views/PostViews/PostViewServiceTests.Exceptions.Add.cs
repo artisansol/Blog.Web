@@ -55,5 +55,49 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             this.postServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(DependencyExceptions))]
+        public async void ShouldThrowDependencyExceptionOnAddIfDependencyErrorOccursAndLogItAsync(
+            Xeption dependencyExceptions)
+        {
+            // given
+            PostView somePostView = CreateRandomPostView();
+
+            var expectedPostViewDependencyException = 
+                new PostViewDependencyException(dependencyExceptions);
+
+            this.dateTimeBrokerMock.Setup(broker => 
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(dependencyExceptions);
+
+            // when
+            ValueTask<PostView> addPostViewTask = 
+                this.postViewService.AddPostViewAsync(somePostView);
+
+            // then
+            await Assert.ThrowsAsync<PostViewDependencyException>(() => 
+                addPostViewTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker => 
+                broker.GetCurrentDateTimeOffset(), 
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostViewDependencyException))),
+                    Times.Once);
+
+            this.postServiceMock.Verify(service => 
+                service.AddPostAsync(It.IsAny<Post>()),
+                Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.postServiceMock.VerifyNoOtherCalls();
+
+
+        }
+
     }
 }

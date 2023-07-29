@@ -51,7 +51,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             var postServiceException =
                 new PostServiceException(innerException);
 
-            return new TheoryData<Exception>
+            return new TheoryData<Xeption>
             {
                 postDependencyException,
                 postServiceException
