@@ -1,6 +1,8 @@
-﻿using Blog.Web.Models.Views.Components.PostDialogs;
+﻿using Blog.Web.Models.PostViews;
+using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Views.Components.PostDialogs;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
@@ -60,5 +62,41 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedTextAreaHeight);
         }
+
+        [Fact]
+        public void ShouldSubmitPostView()
+        {
+            // given
+            string randomContent = GetRandomContent();
+            string inputContent = randomContent;
+            string expectedContent = inputContent;
+
+            var expectedPostView = new PostView
+            {
+                Title = inputContent,
+                Content = inputContent,
+                SubTitle = inputContent
+            };
+
+            // when
+            this.postDialogRenderedComponent = 
+                RenderComponent<PostDialog>();
+
+            this.postDialogRenderedComponent.Instance.OpenDialog();
+            this.postDialogRenderedComponent.Instance.TextArea.SetValueAsync(inputContent);
+            this.postDialogRenderedComponent.Instance.Dialog.Click();
+
+            // then
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeFalse();
+            this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
+
+            this.postViewServiceMock.Verify(service => 
+                service.AddPostViewAsync(this.postDialogRenderedComponent.Instance.PostView), 
+                Times.Once);
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
+
+        }
+
     }
 }
