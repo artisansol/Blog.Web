@@ -11,11 +11,7 @@ namespace Blog.Web.Services.Views.PostViews
         {
             ValidatePostViewIsNotNull(postView);
             
-            Validate(
-                (Rule: IsInvalid(postView.Title), Parameter: nameof(postView.Title)),
-                (Rule: IsInvalid(postView.SubTitle), Parameter: nameof(postView.SubTitle)),
-                (Rule: IsInvalid(postView.Content), Parameter: nameof(postView.Content))
-                );
+            Validate((Rule: IsInvalid(postView.Content), Parameter: nameof(postView.Content)));
         }
 
         private static void ValidatePostViewIsNotNull(PostView postView)
