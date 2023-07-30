@@ -41,9 +41,13 @@ namespace Blog.Web.Views.Components.PostDialogs
             this.PostView.Title = "Title";
             this.PostView.SubTitle = "Subtitle";
             this.PostView.Author = "Author";
-
+            
             this.TextArea.Disable();
-            await this.PostViewService.AddPostViewAsync(this.PostView);
+            this.Dialog.DisableButton();
+
+            await 
+                this.PostViewService.AddPostViewAsync(this.PostView);
+
             CloseDialog();
         }
     }

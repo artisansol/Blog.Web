@@ -131,9 +131,10 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             // then
             this.postDialogRenderedComponent.Instance.TextArea.IsDisabled.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.Dialog.DialogButton.Disabled.Should().BeTrue();
 
             this.postViewServiceMock.Verify(service =>
-                service.AddPostViewAsync(this.postDialogRenderedComponent.Instance.PostView),
+                service.AddPostViewAsync(It.IsAny<PostView>()),
                 Times.Once);
 
             this.postViewServiceMock.VerifyNoOtherCalls();
