@@ -37,6 +37,11 @@ namespace Blog.Web.Views.Components.PostDialogs
 
         public async ValueTask PostViewAsync()
         {
+            //harcoded below properties till I figure out the Create Blog layout
+            this.PostView.Title = "Title";
+            this.PostView.SubTitle = "Subtitle";
+            this.PostView.Author = "Author";
+
             await this.PostViewService.AddPostViewAsync(this.PostView);
             CloseDialog();
         }

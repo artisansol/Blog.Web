@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Views.Components.PostDialogs;
+using Bunit;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -31,13 +33,13 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
         }
 
-        [Fact] 
+        [Fact]
         public void ShouldDisplayDialogIfOpenDialogIsClicked()
         {
             // given
             string expectedTextAreaHeight = "250px";
 
-            PostDialogComponentState expectedState = 
+            PostDialogComponentState expectedState =
                 PostDialogComponentState.Content;
 
             var expectedPostView = new PostView();
@@ -78,11 +80,14 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             var expectedPostView = new PostView
             {
+                Title = "Title",
+                SubTitle = "Subtitle",
+                Author = "Author",
                 Content = inputContent,
             };
 
             // when
-            this.postDialogRenderedComponent = 
+            this.postDialogRenderedComponent =
                 RenderComponent<PostDialog>();
 
             this.postDialogRenderedComponent.Instance.OpenDialog();
@@ -93,12 +98,42 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeFalse();
             this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
 
-            this.postViewServiceMock.Verify(service => 
-                service.AddPostViewAsync(this.postDialogRenderedComponent.Instance.PostView), 
+            this.postViewServiceMock.Verify(service =>
+                service.AddPostViewAsync(this.postDialogRenderedComponent.Instance.PostView),
                 Times.Once);
 
             this.postViewServiceMock.VerifyNoOtherCalls();
 
+        }
+
+        [Fact]
+        public async Task ShouldDisableControlAndDisplayLoadingOnSubmitAsync()
+        {
+            // given
+            string someContent = GetRandomContent();
+
+
+            PostView somePostView = new PostView
+            {
+                Content = someContent
+            };
+
+            this.postViewServiceMock.Setup(service => 
+                service.AddPostViewAsync(It.IsAny<PostView>()))
+                    .ReturnsAsync(
+                        value: somePostView, 
+                        delay: TimeSpan.FromMilliseconds(500));
+            // when
+            this.postDialogRenderedComponent = RenderComponent<PostDialog>();
+
+            this.postDialogRenderedComponent.Instance.OpenDialog();
+            await this.postDialogRenderedComponent.Instance.TextArea.SetValueAsync(someContent);
+            this.postDialogRenderedComponent.Instance.Dialog.Click();
+
+            // then
+            this.postDialogRenderedComponent.Instance.TextArea.IsDisabled.Should().BeTrue();
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
         }
 
     }
