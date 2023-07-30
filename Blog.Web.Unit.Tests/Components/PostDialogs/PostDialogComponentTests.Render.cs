@@ -112,7 +112,6 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             // given
             string someContent = GetRandomContent();
 
-
             PostView somePostView = new PostView
             {
                 Content = someContent
@@ -132,6 +131,10 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             // then
             this.postDialogRenderedComponent.Instance.TextArea.IsDisabled.Should().BeTrue();
+
+            this.postViewServiceMock.Verify(service =>
+                service.AddPostViewAsync(this.postDialogRenderedComponent.Instance.PostView),
+                Times.Once);
 
             this.postViewServiceMock.VerifyNoOtherCalls();
         }
