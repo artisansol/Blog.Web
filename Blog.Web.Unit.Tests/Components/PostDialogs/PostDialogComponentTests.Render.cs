@@ -68,7 +68,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Should().NotBeNull();
 
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedTextAreaHeight);
-            this.postDialogRenderedComponent.Instance.Spinner.Should().BeNull();
+            this.postDialogRenderedComponent.Instance.Spinner.IsVisible.Should().BeFalse();
         }
 
         [Fact]
