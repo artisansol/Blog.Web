@@ -16,6 +16,7 @@ namespace Blog.Web.Views.Components.PostDialogs
         public DialogBase Dialog { get; set; }
         public bool IsVisible { get; set; }
         public PostView PostView { get; set; }
+        public SpinnerBase Spinner { get; set; }
 
         protected override void OnInitialized()
         {

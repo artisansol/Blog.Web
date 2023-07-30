@@ -30,7 +30,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             initialPostDialog.Dialog.Should().BeNull();
             initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
-
+            initialPostDialog.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -68,6 +68,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Should().NotBeNull();
 
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedTextAreaHeight);
+            this.postDialogRenderedComponent.Instance.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -132,6 +133,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             // then
             this.postDialogRenderedComponent.Instance.TextArea.IsDisabled.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.Dialog.DialogButton.Disabled.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.Spinner.IsVisible.Should().BeTrue();
 
             this.postViewServiceMock.Verify(service =>
                 service.AddPostViewAsync(It.IsAny<PostView>()),
