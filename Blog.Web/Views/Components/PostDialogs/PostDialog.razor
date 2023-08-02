@@ -8,6 +8,9 @@
         <TextAreaBase @ref=TextArea
                       Height="250px"
         @bind-Value=@PostView.Content />
+        <ValidationSummaryBase @ref=ContentValidationSummary
+                               Key=@nameof(PostView.Content)
+                               ValidationData=@Exception?.Data />
 
         <SpinnerBase @ref=Spinner />
     </Content>

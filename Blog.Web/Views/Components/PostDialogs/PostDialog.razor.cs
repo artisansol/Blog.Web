@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
+using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Bases;
@@ -17,6 +19,8 @@ namespace Blog.Web.Views.Components.PostDialogs
         public bool IsVisible { get; set; }
         public PostView PostView { get; set; }
         public SpinnerBase Spinner { get; set; }
+        public Exception Exception { get; set; }
+        public ValidationSummaryBase ContentValidationSummary { get; set; }
 
         protected override void OnInitialized()
         {
@@ -38,19 +42,29 @@ namespace Blog.Web.Views.Components.PostDialogs
 
         public async ValueTask PostViewAsync()
         {
-            //harcoded below properties till I figure out the Create Blog layout
-            this.PostView.Title = "Title";
-            this.PostView.SubTitle = "Subtitle";
-            this.PostView.Author = "Author";
+            try
+            {
+                //harcoded below properties till I figure out the Create Blog layout
+                this.PostView.Title = "Title";
+                this.PostView.SubTitle = "Subtitle";
+                this.PostView.Author = "Author";
 
-            this.TextArea.Disable();
-            this.Dialog.DisableButton();
-            this.Spinner.Show();
+                this.TextArea.Disable();
+                this.Dialog.DisableButton();
+                this.Spinner.Show();
 
-            await 
-                this.PostViewService.AddPostViewAsync(this.PostView);
+                await
+                    this.PostViewService.AddPostViewAsync(this.PostView);
 
-            CloseDialog();
+                CloseDialog();
+            }
+            catch (PostViewValidationException postViewValidationException)
+            {
+                this.Exception = postViewValidationException.InnerException;
+                this.TextArea.Enable();
+                this.Dialog.EnableButton();
+                this.Spinner.Hide();
+            }
         }
     }
 }

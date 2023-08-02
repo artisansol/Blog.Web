@@ -1,4 +1,5 @@
-﻿using Blog.Web.Services.Views.PostViews;
+﻿using System.Linq;
+using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Components.PostDialogs;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,17 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.JSInterop.Mode = JSRuntimeMode.Loose;
         }
 
+        private static string GetRandomErrorMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static string[] GetRandomErrorMessages()
+        {
+            int randomCount = GetRandomNumber();
+
+            return Enumerable.Range(start: 0, count: randomCount)
+                .Select(item => GetRandomErrorMessage())
+                .ToArray();
+        }
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
