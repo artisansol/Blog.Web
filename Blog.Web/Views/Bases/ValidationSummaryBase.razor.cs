@@ -12,6 +12,9 @@ namespace Blog.Web.Views.Bases
         [Parameter]
         public string Key { get; set; }
 
+        [Parameter]
+        public string Color { get; set; }
+
         public IEnumerable<string> Errors 
         { 
             get => this.ValidationData?[Key] as IEnumerable<string>; 

@@ -71,6 +71,9 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.ContentValidationSummary.ValidationData
                 .Should().BeEquivalentTo(invalidPostViewException.Data);
 
+            this.postDialogRenderedComponent.Instance.ContentValidationSummary.Color
+                .Should().Be("Red");
+
             this.postViewServiceMock.Verify(service => 
                 service.AddPostViewAsync(It.IsAny<PostView>()), 
                     Times.Once);
