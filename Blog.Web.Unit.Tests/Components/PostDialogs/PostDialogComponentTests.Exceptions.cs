@@ -108,7 +108,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 .Should().Be(postViewDependencyException.Message);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary.ValidationData
-                .Should().BeNull();
+                .Count.Should().Be(0);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary.Color
                 .Should().Be("Red");

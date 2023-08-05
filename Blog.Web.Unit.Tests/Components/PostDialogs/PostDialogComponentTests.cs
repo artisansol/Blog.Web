@@ -53,7 +53,8 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
 
             return new TheoryData<Xeption>
             {
-                new PostViewDependencyException(someException)
+                new PostViewDependencyException(someException),
+                new PostViewServiceException(someException)
             };
         }
 

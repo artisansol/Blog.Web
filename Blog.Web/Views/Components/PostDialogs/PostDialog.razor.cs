@@ -72,6 +72,10 @@ namespace Blog.Web.Views.Components.PostDialogs
             {
                 RenderDependencyError(postViewDependencyException);
             }
+            catch (PostViewServiceException postViewServiceException)
+            {
+                RenderDependencyError(postViewServiceException);
+            }
         }
 
         private void RenderValidationError(Xeption exception)
