@@ -10,6 +10,7 @@ using Syncfusion.Blazor;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
+using System;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
 {
@@ -32,12 +33,6 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             string[] randomErrorMessages =
                 GetRandomErrorMessages();
 
-            string[] returnedErrorMessages =
-                randomErrorMessages;
-
-            string[] expectedErrorMessages =
-                returnedErrorMessages;
-
             var invalidPostViewException =
                 new InvalidPostViewException();
 
@@ -49,6 +44,16 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             {
                 new PostViewValidationException(invalidPostViewException),
                 new PostViewDependencyValidationException(invalidPostViewException)
+            };
+        }
+
+        public static TheoryData DependencyExceptions()
+        {
+            var someException = new Xeption();
+
+            return new TheoryData<Xeption>
+            {
+                new PostViewDependencyException(someException)
             };
         }
 

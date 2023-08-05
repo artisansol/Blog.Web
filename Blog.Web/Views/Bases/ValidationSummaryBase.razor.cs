@@ -10,6 +10,9 @@ namespace Blog.Web.Views.Bases
         public IDictionary ValidationData { get; set; }
 
         [Parameter]
+        public string Message { get; set; }
+
+        [Parameter]
         public string Key { get; set; }
 
         [Parameter]

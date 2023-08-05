@@ -22,6 +22,7 @@ namespace Blog.Web.Views.Components.PostDialogs
         public SpinnerBase Spinner { get; set; }
         public Exception Exception { get; set; }
         public ValidationSummaryBase ContentValidationSummary { get; set; }
+        public string ErrorMessage { get; set; }
 
         protected override void OnInitialized()
         {
@@ -67,11 +68,24 @@ namespace Blog.Web.Views.Components.PostDialogs
             {
                 RenderValidationError(postViewDependencyValidationException);
             }
+            catch (PostViewDependencyException postViewDependencyException)
+            {
+                RenderDependencyError(postViewDependencyException);
+            }
         }
 
         private void RenderValidationError(Xeption exception)
         {
             this.Exception = exception.InnerException;
+            this.TextArea.Enable();
+            this.Dialog.EnableButton();
+            this.Spinner.Hide();
+        }
+
+        private void RenderDependencyError(Xeption exception)
+        {
+            this.Exception = exception;
+            this.ErrorMessage = exception.Message;
             this.TextArea.Enable();
             this.Dialog.EnableButton();
             this.Spinner.Hide();
