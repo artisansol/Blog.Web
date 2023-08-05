@@ -10,35 +10,19 @@ using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Views.Components.PostDialogs;
 using FluentAssertions;
 using Moq;
+using Xeptions;
 using Xunit;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
 {
     public partial class PostDialogComponentTests
     {
-        [Fact]
-        public async Task ShouldRenderValidationDetailOnPostAsync()
+        [Theory]
+        [MemberData(nameof(DependencyValidationExceptions))]
+        public async Task ShouldRenderValidationDetailOnPostAsync(Xeption postViewValidationException)
         {
             // given
             string someContent = GetRandomContent();
-            string[] randomErrorMessages = 
-                GetRandomErrorMessages();
-
-            string[] returnedErrorMessages = 
-                randomErrorMessages;
-
-            string[] expectedErrorMessages = 
-                returnedErrorMessages;
-
-            var invalidPostViewException = 
-                new InvalidPostViewException();
-
-            invalidPostViewException.AddData(
-                key: nameof(PostView.Content), 
-                values: randomErrorMessages);
-
-            var postViewValidationException = 
-                new PostViewValidationException(invalidPostViewException);
 
             this.postViewServiceMock.Setup(service =>
                 service.AddPostViewAsync(It.IsAny<PostView>()))
@@ -49,11 +33,14 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.postDialogRenderedComponent = 
                 RenderComponent<PostDialog>();
 
-            this.postDialogRenderedComponent.Instance.OpenDialog();
+            this.postDialogRenderedComponent.Instance
+                .OpenDialog();
 
-            await this.postDialogRenderedComponent.Instance.TextArea.SetValueAsync(someContent);
+            await this.postDialogRenderedComponent.Instance.TextArea
+                .SetValueAsync(someContent);
 
-            this.postDialogRenderedComponent.Instance.Dialog.Click();
+            this.postDialogRenderedComponent.Instance.Dialog
+                .Click();
 
             // then
             this.postDialogRenderedComponent.Instance.Dialog.IsVisible
@@ -69,7 +56,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 .Should().BeFalse();
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary.ValidationData
-                .Should().BeEquivalentTo(invalidPostViewException.Data);
+                .Should().BeEquivalentTo(postViewValidationException.InnerException.Data);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary.Color
                 .Should().Be("Red");

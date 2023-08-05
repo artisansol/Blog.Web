@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Blog.Web.Models.PostViews.Exceptions;
+using Blog.Web.Models.PostViews;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Components.PostDialogs;
 using Bunit;
@@ -6,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Syncfusion.Blazor;
 using Tynamix.ObjectFiller;
+using Xeptions;
+using Xunit;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
 {
@@ -21,6 +25,31 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
             this.Services.AddSyncfusionBlazor();
             this.Services.AddOptions();
             this.JSInterop.Mode = JSRuntimeMode.Loose;
+        }
+
+        public static TheoryData DependencyValidationExceptions()
+        {
+            string[] randomErrorMessages =
+                GetRandomErrorMessages();
+
+            string[] returnedErrorMessages =
+                randomErrorMessages;
+
+            string[] expectedErrorMessages =
+                returnedErrorMessages;
+
+            var invalidPostViewException =
+                new InvalidPostViewException();
+
+            invalidPostViewException.AddData(
+                key: nameof(PostView.Content),
+                values: randomErrorMessages);
+
+            return new TheoryData<Xeption> 
+            {
+                new PostViewValidationException(invalidPostViewException),
+                new PostViewDependencyValidationException(invalidPostViewException)
+            };
         }
 
         private static string GetRandomErrorMessage() =>
