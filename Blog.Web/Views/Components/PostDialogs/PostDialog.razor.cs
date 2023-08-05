@@ -6,6 +6,7 @@ using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Bases;
 using Microsoft.AspNetCore.Components;
+using Xeptions;
 
 namespace Blog.Web.Views.Components.PostDialogs
 {
@@ -60,18 +61,20 @@ namespace Blog.Web.Views.Components.PostDialogs
             }
             catch (PostViewValidationException postViewValidationException)
             {
-                this.Exception = postViewValidationException.InnerException;
-                this.TextArea.Enable();
-                this.Dialog.EnableButton();
-                this.Spinner.Hide();
+                RenderValidationError(postViewValidationException);
             }
             catch (PostViewDependencyValidationException postViewDependencyValidationException)
             {
-                this.Exception = postViewDependencyValidationException.InnerException;
-                this.TextArea.Enable();
-                this.Dialog.EnableButton();
-                this.Spinner.Hide();
+                RenderValidationError(postViewDependencyValidationException);
             }
+        }
+
+        private void RenderValidationError(Xeption exception)
+        {
+            this.Exception = exception.InnerException;
+            this.TextArea.Enable();
+            this.Dialog.EnableButton();
+            this.Spinner.Hide();
         }
     }
 }
