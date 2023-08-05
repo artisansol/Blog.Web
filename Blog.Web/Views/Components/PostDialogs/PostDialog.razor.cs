@@ -65,6 +65,13 @@ namespace Blog.Web.Views.Components.PostDialogs
                 this.Dialog.EnableButton();
                 this.Spinner.Hide();
             }
+            catch (PostViewDependencyValidationException postViewDependencyValidationException)
+            {
+                this.Exception = postViewDependencyValidationException.InnerException;
+                this.TextArea.Enable();
+                this.Dialog.EnableButton();
+                this.Spinner.Hide();
+            }
         }
     }
 }
