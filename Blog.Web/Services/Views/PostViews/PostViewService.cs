@@ -26,14 +26,14 @@ namespace Blog.Web.Services.Views.PostViews
         }
 
         public ValueTask<PostView> AddPostViewAsync(PostView postView) =>
-            TryCatch(async () => 
+            TryCatch(async () =>
             {
                 ValidatePostViewOnAdd(postView);
 
-                Post post = 
+                Post post =
                     MapToPost(postView);
 
-                Post returnedPost = 
+                Post returnedPost =
                     await this.postService.AddPostAsync(post);
 
                 return postView;

@@ -27,9 +27,9 @@ namespace Blog.Web.Views.Components.PostDialogs
         protected override void OnInitialized()
         {
             this.State = PostDialogComponentState.Content;
-            this.PostView = new PostView(); 
+            this.PostView = new PostView();
         }
-            
+
         public void OpenDialog()
         {
             this.Dialog.Show();

@@ -24,7 +24,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly ICompareLogic compareLogic;
         private readonly IPostViewService postViewService;
-        
+
         public PostViewServiceTests()
         {
             this.postServiceMock = new Mock<IPostService>();
@@ -79,10 +79,10 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
         {
             var innerException = new Xeption();
 
-            var postServiceValidationException = 
+            var postServiceValidationException =
                 new PostValidationException(innerException);
 
-            var postDependencyValidation = 
+            var postDependencyValidation =
                 new PostDependencyValidationException(innerException);
 
             return new TheoryData<Xeption>

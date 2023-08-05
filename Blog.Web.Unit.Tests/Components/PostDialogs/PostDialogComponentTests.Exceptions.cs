@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AngleSharp.Css.Parser;
-using Blog.Web.Models.Posts.Exceptions;
+﻿using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
-using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Views.Components.PostDialogs;
 using FluentAssertions;
 using Moq;
@@ -79,7 +72,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 service.AddPostViewAsync(It.IsAny<PostView>()))
                     .ThrowsAsync(postViewDependencyException);
             // when
-            this.postDialogRenderedComponent = 
+            this.postDialogRenderedComponent =
                 RenderComponent<PostDialog>();
 
             this.postDialogRenderedComponent.Instance

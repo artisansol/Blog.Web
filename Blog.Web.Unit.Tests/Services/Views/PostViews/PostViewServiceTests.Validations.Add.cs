@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
@@ -20,24 +16,24 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             PostView nullPostView = null;
             var nullPostViewException = new NullPostViewException();
 
-            var expectedPostViewValidationException = 
+            var expectedPostViewValidationException =
                 new PostViewValidationException(nullPostViewException);
 
             // when
-            ValueTask<PostView> addPostViewTask = 
+            ValueTask<PostView> addPostViewTask =
                 this.postViewService.AddPostViewAsync(nullPostView);
 
             // then
-            await Assert.ThrowsAsync<PostViewValidationException>(() => 
+            await Assert.ThrowsAsync<PostViewValidationException>(() =>
                 addPostViewTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewValidationException))),
                     Times.Once);
 
-            this.postServiceMock.Verify(service => 
-                service.AddPostAsync(It.IsAny<Post>()), 
+            this.postServiceMock.Verify(service =>
+                service.AddPostAsync(It.IsAny<Post>()),
                 Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
@@ -59,7 +55,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 Content = invalidText
             };
 
-            var invalidPostViewException = 
+            var invalidPostViewException =
                 new InvalidPostViewException();
 
             invalidPostViewException.AddData(
@@ -71,28 +67,28 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 values: "Text is required.");
 
             invalidPostViewException.AddData(
-                key: nameof(PostView.Content), 
+                key: nameof(PostView.Content),
                 values: "Text is required.");
 
-            var expectedPostViewValidationException = 
+            var expectedPostViewValidationException =
                 new PostViewValidationException(invalidPostViewException);
 
             // when
-            ValueTask<PostView> addPostViewTask = 
+            ValueTask<PostView> addPostViewTask =
                 this.postViewService.AddPostViewAsync(invalidPostView);
 
             // then
-            await Assert.ThrowsAsync<PostViewValidationException>(() => 
+            await Assert.ThrowsAsync<PostViewValidationException>(() =>
                 addPostViewTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewValidationException))),
                     Times.Once());
 
-            this.postServiceMock.Verify(broker => 
-                broker.AddPostAsync(It.IsAny<Post>()), 
+            this.postServiceMock.Verify(broker =>
+                broker.AddPostAsync(It.IsAny<Post>()),
                 Times.Never());
-        } 
+        }
     }
 }

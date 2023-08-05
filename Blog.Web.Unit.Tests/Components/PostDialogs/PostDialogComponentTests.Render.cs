@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.PostDialogs;
 using Blog.Web.Views.Components.PostDialogs;
-using Bunit;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -118,10 +117,10 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 Content = someContent
             };
 
-            this.postViewServiceMock.Setup(service => 
+            this.postViewServiceMock.Setup(service =>
                 service.AddPostViewAsync(It.IsAny<PostView>()))
                     .ReturnsAsync(
-                        value: somePostView, 
+                        value: somePostView,
                         delay: TimeSpan.FromMilliseconds(500));
             // when
             this.postDialogRenderedComponent = RenderComponent<PostDialog>();

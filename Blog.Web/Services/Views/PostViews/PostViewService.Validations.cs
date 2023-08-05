@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection.Metadata;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.PostViews.Exceptions;
 
@@ -10,7 +9,7 @@ namespace Blog.Web.Services.Views.PostViews
         private static void ValidatePostViewOnAdd(PostView postView)
         {
             ValidatePostViewIsNotNull(postView);
-            
+
             Validate(
                 (Rule: IsInvalid(postView.Title), Parameter: nameof(postView.Title)),
                 (Rule: IsInvalid(postView.SubTitle), Parameter: nameof(postView.SubTitle)),

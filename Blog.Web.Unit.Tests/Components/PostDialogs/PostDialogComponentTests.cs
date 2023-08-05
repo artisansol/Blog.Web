@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Models.PostViews;
+using Blog.Web.Models.PostViews.Exceptions;
 using Blog.Web.Services.Views.PostViews;
 using Blog.Web.Views.Components.PostDialogs;
 using Bunit;
@@ -10,7 +10,6 @@ using Syncfusion.Blazor;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
-using System;
 
 namespace Blog.Web.Unit.Tests.Components.PostDialogs
 {
@@ -40,7 +39,7 @@ namespace Blog.Web.Unit.Tests.Components.PostDialogs
                 key: nameof(PostView.Content),
                 values: randomErrorMessages);
 
-            return new TheoryData<Xeption> 
+            return new TheoryData<Xeption>
             {
                 new PostViewValidationException(invalidPostViewException),
                 new PostViewDependencyValidationException(invalidPostViewException)

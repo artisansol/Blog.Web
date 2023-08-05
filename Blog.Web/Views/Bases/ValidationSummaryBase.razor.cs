@@ -18,10 +18,10 @@ namespace Blog.Web.Views.Bases
         [Parameter]
         public string Color { get; set; }
 
-        public IEnumerable<string> Errors 
-        { 
-            get => this.ValidationData?[Key] as IEnumerable<string>; 
-            set => Errors = value; 
+        public IEnumerable<string> Errors
+        {
+            get => this.ValidationData?[Key] as IEnumerable<string>;
+            set => Errors = value;
         }
     }
 }

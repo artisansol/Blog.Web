@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blog.Web.Models.Posts;
 using Blog.Web.Models.PostViews;
@@ -26,27 +23,27 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                 new PostViewDependencyValidationException(
                     dependencyValidationException.InnerException as Xeption);
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Throws(dependencyValidationException);
 
             // when
-            ValueTask<PostView> addPostViewTask = 
+            ValueTask<PostView> addPostViewTask =
                 this.postViewService.AddPostViewAsync(somePostView);
 
             // then
-            await Assert.ThrowsAsync<PostViewDependencyValidationException>(() => 
+            await Assert.ThrowsAsync<PostViewDependencyValidationException>(() =>
                 addPostViewTask.AsTask());
 
-            this.dateTimeBrokerMock.Verify(broker => 
-                broker.GetCurrentDateTimeOffset(), 
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
                 Times.Once);
-            
-            this.postServiceMock.Verify(service => 
-                service.AddPostAsync(It.IsAny<Post>()), 
+
+            this.postServiceMock.Verify(service =>
+                service.AddPostAsync(It.IsAny<Post>()),
                 Times.Never);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewDependencyValidationException))),
                     Times.Once);
@@ -64,23 +61,23 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             // given
             PostView somePostView = CreateRandomPostView();
 
-            var expectedPostViewDependencyException = 
+            var expectedPostViewDependencyException =
                 new PostViewDependencyException(dependencyExceptions);
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Throws(dependencyExceptions);
 
             // when
-            ValueTask<PostView> addPostViewTask = 
+            ValueTask<PostView> addPostViewTask =
                 this.postViewService.AddPostViewAsync(somePostView);
 
             // then
-            await Assert.ThrowsAsync<PostViewDependencyException>(() => 
+            await Assert.ThrowsAsync<PostViewDependencyException>(() =>
                 addPostViewTask.AsTask());
 
-            this.dateTimeBrokerMock.Verify(broker => 
-                broker.GetCurrentDateTimeOffset(), 
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
                 Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -88,7 +85,7 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
                     expectedPostViewDependencyException))),
                     Times.Once);
 
-            this.postServiceMock.Verify(service => 
+            this.postServiceMock.Verify(service =>
                 service.AddPostAsync(It.IsAny<Post>()),
                 Times.Never);
 
@@ -106,35 +103,35 @@ namespace Blog.Web.Unit.Tests.Services.Views.PostViews
             var somePostView = CreateRandomPostView();
             var serviceException = new Exception();
 
-            var failedPostViewServiceException = 
+            var failedPostViewServiceException =
                 new FailedPostViewServiceException(serviceException as Xeption);
 
-            var expectedPostViewServiceException = 
+            var expectedPostViewServiceException =
                 new PostViewServiceException(failedPostViewServiceException);
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Throws(serviceException);
 
             // when
-            ValueTask<PostView> addPostViewTask = 
+            ValueTask<PostView> addPostViewTask =
                 this.postViewService.AddPostViewAsync(somePostView);
 
             // then
-            await Assert.ThrowsAsync<PostViewServiceException>(() => 
+            await Assert.ThrowsAsync<PostViewServiceException>(() =>
                 addPostViewTask.AsTask());
 
-            this.dateTimeBrokerMock.Verify(broker => 
-                broker.GetCurrentDateTimeOffset(), 
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
                 Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewServiceException))),
                     Times.Once);
 
-            this.postServiceMock.Verify(service => 
-                service.AddPostAsync(It.IsAny<Post>()), 
+            this.postServiceMock.Verify(service =>
+                service.AddPostAsync(It.IsAny<Post>()),
                 Times.Never);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
