@@ -5,11 +5,11 @@ namespace Blog.Web.Views.Pages
 {
     public partial class Index : ComponentBase
     {
-        PostDialog Dialog { get; set; }
+        //PostDialog Dialog { get; set; }
 
-        protected override void OnAfterRender(bool firstRender)
-        {
-            this.Dialog.OpenDialog();
-        }
+        //protected override void OnAfterRender(bool firstRender)
+        //{
+        //    this.Dialog.OpenDialog();
+        //}
     }
 }
