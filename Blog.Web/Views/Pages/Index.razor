@@ -2,9 +2,61 @@
 @using Blog.Web.Views.Bases
 @using Blog.Web.Views.Components.Timelines
 @using Blog.Web.Views.Components.PostDialogs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
 
-@*<PostDialog @ref=Dialog/>*@
-@*<TimelineComponent/>*@
 <div class="container">
-
+    <div class="row flex-nowrap justify-content-between align-items-center">
+        <AppBarBase Mode="AppBarMode.Prominent">
+            <Content>
+                <span class="blog-header-logo text-body-emphasis text-decoration-none">My Blogs</span>
+                <AppBarSpacerBase />
+                <div style="padding-top: 10px">
+                <SfButton class="btn btn-sm btn-outline-secondary">Get Started</SfButton>
+                </div>
+            </Content>
+        </AppBarBase>
+    </div>
 </div>
+
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+        <div class="col-lg-6 px-0">
+            <h1 class="display-4 fst-italic">Title of a longer blog post</h1>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+            <p class="lead mb-0">
+                <a class="text-body-emphasis fw-bold">Continue reading...</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<style>
+    .themed-container {
+        padding: .75rem;
+        margin-bottom: 1.5rem;
+        background-color: rgba(112.520718, 44.062154, 249.437846, .15);
+        border: 1px solid rgba(112.520718, 44.062154, 249.437846, .3);
+    }
+
+    .blog-header-logo {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-size: 1.75rem;
+    }
+
+    .text-decoration-none {
+        text-decoration: none !important;
+    }
+
+    .text-body-emphasis{
+        color: black !important;
+    }
+
+    .bg-body-secondary{
+        background-color: rgb(233,236,239);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif /*rtl:Amiri, Georgia, "Times New Roman", serif;; */;
+    }
+</style>
