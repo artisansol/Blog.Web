@@ -12,7 +12,7 @@
                 <span class="blog-header-logo text-body-emphasis text-decoration-none">My Blogs</span>
                 <AppBarSpacerBase />
                 <div style="padding-top: 10px">
-                <SfButton class="btn btn-sm btn-outline-secondary">Get Started</SfButton>
+                    <SfButton class="btn btn-sm btn-outline-secondary">Get Started</SfButton>
                 </div>
             </Content>
         </AppBarBase>
@@ -27,6 +27,34 @@
             <p class="lead mb-0">
                 <a class="text-body-emphasis fw-bold">Continue reading...</a>
             </p>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <HorizontalCardBase Title="Featured Post"
+                                SubTitle="Nov 12"
+                                ImageUrl="/imgs/error.jpg"
+                                CssClass="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <Content>
+                    <p>This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                </Content>
+                <Footer>
+                    <SfButton class="e-link">Continue Reading</SfButton>
+                </Footer>
+            </HorizontalCardBase>
+        </div>
+        <div class="col-md-6">
+            <HorizontalCardBase Title="Post Title"
+                                SubTitle="Nov 11"
+                                ImageUrl="/imgs/error.jpg"
+                                CssClass="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <Content>
+                    <p>This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                </Content>
+                <Footer>
+                    <SfButton class="e-link">Continue Reading</SfButton>
+                </Footer>
+            </HorizontalCardBase>
         </div>
     </div>
 </main>
@@ -48,15 +76,20 @@
         text-decoration: none !important;
     }
 
-    .text-body-emphasis{
+    .text-body-emphasis {
         color: black !important;
     }
 
-    .bg-body-secondary{
+    .bg-body-secondary {
         background-color: rgb(233,236,239);
     }
 
     h1, h2, h3, h4, h5, h6 {
         font-family: "Playfair Display", Georgia, "Times New Roman", serif /*rtl:Amiri, Georgia, "Times New Roman", serif;; */;
     }
+
+    .e-link{
+        padding: 4px 0px;
+    }
+
 </style>

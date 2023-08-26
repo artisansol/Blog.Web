@@ -1,0 +1,19 @@
+﻿@using Syncfusion.Blazor.Cards
+
+<SfCard Orientation="CardOrientation.Horizontal" CssClass="@CssClass">
+    <CardStacked>
+        <CardHeader Title=@Title
+                    SubTitle=@SubTitle />
+
+        <CardContent>
+            @Content
+        </CardContent>
+
+        <CardFooter>
+            <CardFooterContent>
+                @Footer
+            </CardFooterContent>
+        </CardFooter>
+    </CardStacked>
+    <CardImage Image="@ImageUrl"/>
+</SfCard>
