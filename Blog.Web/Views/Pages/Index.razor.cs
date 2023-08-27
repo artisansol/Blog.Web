@@ -11,5 +11,10 @@ namespace Blog.Web.Views.Pages
         //{
         //    this.Dialog.OpenDialog();
         //}
+
+        public void SignUp()
+        {
+            string click = "You are here buddy!";
+        }
     }
 }

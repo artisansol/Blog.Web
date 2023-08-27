@@ -6,13 +6,10 @@ using Syncfusion.Blazor.Navigations;
 
 namespace Blog.Web.Views.Bases
 {
-    public partial class AppBarBase : ComponentBase
+    public partial class ProminentAppBarBase : ComponentBase
     {
         [Parameter]
         public AppBarColor ColorMode { get; set; }
-
-        [Parameter]
-        public AppBarMode Mode { get; set; }
 
         [Parameter]
         public AppBarPosition Position { get; set; }

@@ -7,15 +7,15 @@
 
 <div class="container">
     <div class="row flex-nowrap justify-content-between align-items-center">
-        <AppBarBase Mode="AppBarMode.Prominent">
+        <ProminentAppBarBase>
             <Content>
                 <span class="blog-header-logo text-body-emphasis text-decoration-none">My Blogs</span>
                 <AppBarSpacerBase />
                 <div style="padding-top: 10px">
-                    <SfButton class="btn btn-sm btn-outline-secondary">Get Started</SfButton>
+                    <OutlineButtonBase ButtonLabel="Get Started" OnClicked="SignUp"></OutlineButtonBase>
                 </div>
             </Content>
-        </AppBarBase>
+        </ProminentAppBarBase>
     </div>
 </div>
 
@@ -39,7 +39,8 @@
                     <p>This is a wider card with supporting text below as a natural lead-in to additional content.</p>
                 </Content>
                 <Footer>
-                    <SfButton class="e-link gap-1">Continue Reading
+                    <SfButton class="e-link gap-1">
+                        Continue Reading
                         <SfIcon Name="IconName.ChevronRight" Size="IconSize.Medium" />
                     </SfButton>
                 </Footer>
@@ -56,12 +57,30 @@
                 <Footer>
                     <SfButton class="e-link gap-1">
                         Continue Reading
-                        <SfIcon Name="IconName.ChevronRight" Size="IconSize.Medium"/>
+                        <SfIcon Name="IconName.ChevronRight" Size="IconSize.Medium" />
                     </SfButton>
                 </Footer>
             </HorizontalCardBase>
         </div>
     </div>
+
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom">From the Firehouse</h3>
+        </div>
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-body-tertiary rounded">
+                    <h4 class="fst-italic">About</h4>
+                    <p class="mb-0">
+                        Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </main>
 
 <style>
@@ -95,6 +114,11 @@
 
     .e-link {
         padding: 4px 0px;
+    }
+
+    .bg-body-tertiary{
+        opacity: 1;
+        background-color: rgba(248,249,250);
     }
 
 </style>
