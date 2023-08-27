@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Blog.Web.Models.PostViews;
 using Blog.Web.Models.Views.Components.Timelines;
-using Blog.Web.Views.Bases;
 using Blog.Web.Views.Components.Timelines;
 using Bunit;
 using FluentAssertions;

@@ -1,5 +1,4 @@
-﻿using Blog.Web.Views.Components.PostDialogs;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Blog.Web.Views.Pages
 {
@@ -12,9 +11,5 @@ namespace Blog.Web.Views.Pages
         //    this.Dialog.OpenDialog();
         //}
 
-        public void SignUp()
-        {
-            string click = "You are here buddy!";
-        }
     }
 }

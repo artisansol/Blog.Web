@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Cards;
 
 namespace Blog.Web.Views.Bases
 {

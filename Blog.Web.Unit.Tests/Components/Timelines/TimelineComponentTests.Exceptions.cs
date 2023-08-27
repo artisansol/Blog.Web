@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blog.Web.Models.Views.Components.Timelines;
-using Blog.Web.Views.Bases;
 using Blog.Web.Views.Components.Timelines;
 using Bunit;
 using FluentAssertions;
