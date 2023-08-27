@@ -15,3 +15,95 @@
         </ProminentAppBarBase>
     </div>
 </div>
+
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+        <div class="col-lg-6 px-0">
+            <h1 class="display-4 fst-italic">Title of a longer blog post</h1>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+            <p class="lead mb-0">
+                <a class="text-body-emphasis fw-bold">Continue reading...</a>
+            </p>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <HorizontalCardBase Title="Featured Post"
+                                SubTitle="Nov 12"
+                                ImageUrl="/imgs/error.jpg"
+                                CssClass="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <Content>
+                    <p>This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                </Content>
+                <Footer>
+                    <ButtonBase ButtonLabel="Continue Reading"
+                                CssClass="e-link gap-1" />
+                </Footer>
+            </HorizontalCardBase>
+        </div>
+        <div class="col-md-6">
+            <HorizontalCardBase Title="Post Title"
+                                SubTitle="Nov 11"
+                                ImageUrl="/imgs/error.jpg"
+                                CssClass="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <Content>
+                    <p>This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                </Content>
+                <Footer>
+                    <ButtonBase ButtonLabel="Continue Reading"
+                                CssClass="e-link gap-1" />
+                </Footer>
+            </HorizontalCardBase>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom">From the Firehouse</h3>
+        </div>
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-body-tertiary rounded">
+                    <h4 class="fst-italic">About</h4>
+                    <p class="mb-0">
+                        Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<style>
+    .blog-header-logo {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-size: 1.75rem;
+    }
+
+    .text-decoration-none {
+        text-decoration: none !important;
+    }
+
+    .text-body-emphasis {
+        color: black !important;
+    }
+
+    .bg-body-secondary {
+        background-color: rgb(233,236,239);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif /*rtl:Amiri, Georgia, "Times New Roman", serif;; */;
+    }
+
+    .e-link {
+        padding: 4px 0px;
+    }
+
+    .bg-body-tertiary {
+        opacity: 1;
+        background-color: rgba(248,249,250);
+    }
+</style>
